@@ -1,0 +1,51 @@
+{
+  "name": "Migreapp",
+  "short_name": "Migreapp",
+  "theme_color": "#1976d2",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "scope": "https://ilchenkovladislav.github.io/Migreapp/",
+  "start_url": "https://ilchenkovladislav.github.io/Migreapp/",
+  "icons": [
+       {
+         "src": "https://ilchenkovladislav.github.io/Migreapp/icon-72x72.png",
+         "sizes": "72x72",
+         "type": "image/png"
+       },
+       {
+         "src": "https://ilchenkovladislav.github.io/Migreapp/icon-96x96.png",
+         "sizes": "96x96",
+         "type": "image/png"
+       },
+       {
+         "src": "https://ilchenkovladislav.github.io/Migreapp/icon-128x128.png",
+         "sizes": "128x128",
+         "type": "image/png"
+       },
+       {
+         "src": "https://ilchenkovladislav.github.io/Migreapp/icon-144x144.png",
+         "sizes": "144x144",
+         "type": "image/png"
+       },
+       {
+         "src": "https://ilchenkovladislav.github.io/Migreapp/icon-152x152.png",
+         "sizes": "152x152",
+         "type": "image/png"
+       },
+       {
+         "src": "https://ilchenkovladislav.github.io/Migreapp/icon-192x192.png",
+         "sizes": "192x192",
+         "type": "image/png"
+       },
+       {
+         "src": "https://ilchenkovladislav.github.io/Migreapp/icon-284x284.png",
+         "sizes": "284x284",
+         "type": "image/png"
+       },
+       {
+         "src": "https://ilchenkovladislav.github.io/Migreapp/icon-512x512.png",
+         "sizes": "512x512",
+         "type": "image/png"
+       }
+    ]
+}
