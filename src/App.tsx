@@ -1,17 +1,11 @@
-import { useState } from 'react';
-import { Calendar } from './components/Calendar/Calendar.tsx';
+import { CreateForm } from './components/CreateForm/CreateForm.tsx';
+import { ThemeSwitcher } from './components/ThemeSwitcher/ThemeSwitcher.tsx';
 
 function App() {
-    const [yearAndMonth, setYearAndMonth] = useState<[number, number]>([
-        2021, 9,
-    ]);
-
     return (
         <>
-            <Calendar
-                yearAndMonth={yearAndMonth}
-                onYearAndMonthChange={setYearAndMonth}
-            />
+            <ThemeSwitcher />
+            <CreateForm />
         </>
     );
 }
