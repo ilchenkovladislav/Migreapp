@@ -16,7 +16,8 @@ interface Medicine {
 }
 
 const medicine: Medicine[] = [
-    { value: 'Нурофен', label: 'Нурофен' },
+    { value: 'Нурофен 400', label: 'Нурофен 400' },
+    { value: 'Суматриптан 50', label: 'Суматриптан 50' },
     { value: 'Спазмалгон', label: 'Спазмалгон' },
     { value: 'Амигренин', label: 'Амигренин' },
     { value: 'Золмитриптан', label: 'Золмитриптан' },
