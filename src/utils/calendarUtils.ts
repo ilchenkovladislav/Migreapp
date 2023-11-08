@@ -9,6 +9,25 @@ dayjs.extend(weekOfYear);
 
 dayjs.locale(ru);
 
+export interface PainRecord {
+    datetime?: string;
+    id?: number;
+    name?: string;
+    time?: string;
+    href?: string;
+}
+
+export interface CalendarDay {
+    date: string;
+    dayOfMonth: number;
+    isPreviousMonth?: boolean;
+    isCurrentMonth: boolean;
+    isNextMonth?: boolean;
+    isToday?: boolean;
+    painRecords: PainRecord[];
+    isSelected?: boolean;
+}
+
 export const daysOfWeekFull = [
     'Понедельник',
     'Вторник',
@@ -39,81 +58,108 @@ export function getMonthDropdownOptions() {
     }));
 }
 
+export function getMonthName(month: number) {
+    return dayjs()
+        .month(month - 1)
+        .format('MMMM');
+}
+
+export function isToday(date: dayjs.Dayjs) {
+    return date.isSame(dayjs(), 'day');
+}
+
+export function getCurrentYear() {
+    return dayjs().year();
+}
+
+export function getCurrentMonth() {
+    return dayjs().month() + 1;
+}
+
 export function getNumberOfDaysInMonth(year: number, month: number) {
     return dayjs(`${year}-${month}-01`).daysInMonth();
 }
 
-export function createDaysForCurrentMonth(year: number, month: number) {
-    return [...Array(getNumberOfDaysInMonth(year, month))].map((_, index) => {
-        return {
-            dateString: dayjs(`${year}-${month}-${index + 1}`).format(
-                'YYYY-MM-DD',
-            ),
-            dayOfMonth: index + 1,
+export function createDaysForCurrentMonth(
+    year: number,
+    month: number,
+): CalendarDay[] {
+    const res: CalendarDay[] = [];
+    for (let i = 0; i < getNumberOfDaysInMonth(year, month); i++) {
+        const currentDate = dayjs(`${year}-${month}-${i + 1}`);
+
+        res.push({
+            date: currentDate.format('YYYY-MM-DD'),
+            dayOfMonth: i + 1,
             isCurrentMonth: true,
-        };
-    });
+            isToday: isToday(currentDate),
+            painRecords: [],
+        });
+    }
+
+    return res;
 }
 
 export function createDaysForPreviousMonth(
     year: number,
     month: number,
-    currentMonthDays: any,
-) {
-    const firstDayOfTheMonthWeekday = getWeekday(
-        currentMonthDays[0].dateString,
-    );
+    currentMonthDays: CalendarDay[],
+): CalendarDay[] {
+    const firstDayOfTheMonthWeekday = getWeekday(currentMonthDays[0].date);
     const previousMonth = dayjs(`${year}-${month}-01`).subtract(1, 'month');
 
     const visibleNumberOfDaysFromPreviousMonth = firstDayOfTheMonthWeekday;
 
-    const previousMonthLastMondayDayOfMonth = dayjs(
-        currentMonthDays[0].dateString,
-    )
+    const previousMonthLastMondayDayOfMonth = dayjs(currentMonthDays[0].date)
         .subtract(visibleNumberOfDaysFromPreviousMonth, 'day')
         .date();
 
-    return [...Array(visibleNumberOfDaysFromPreviousMonth)].map((_, index) => {
-        return {
-            dateString: dayjs(
+    const res: CalendarDay[] = [];
+
+    for (let i = 0; i < visibleNumberOfDaysFromPreviousMonth; i++) {
+        res.push({
+            date: dayjs(
                 `${previousMonth.year()}-${previousMonth.month() + 1}-${
-                    previousMonthLastMondayDayOfMonth + index
+                    previousMonthLastMondayDayOfMonth + i
                 }`,
             ).format('YYYY-MM-DD'),
-            dayOfMonth: previousMonthLastMondayDayOfMonth + index,
+            dayOfMonth: previousMonthLastMondayDayOfMonth + i,
             isCurrentMonth: false,
-            isPreviousMonth: true,
-        };
-    });
+            painRecords: [],
+        });
+    }
+
+    return res;
 }
 
 export function createDaysForNextMonth(
     year: number,
     month: number,
-    currentMonthDays: any,
-) {
+    currentMonthDays: CalendarDay[],
+): CalendarDay[] {
     const lastDayOfTheMonthWeekday = getWeekday(
         `${year}-${month}-${currentMonthDays.length}`,
     );
     const nextMonth = dayjs(`${year}-${month}-01`).add(1, 'month');
     const visibleNumberOfDaysFromNextMonth = 6 - lastDayOfTheMonthWeekday;
 
-    return [...Array(visibleNumberOfDaysFromNextMonth)].map((_, index) => {
-        return {
-            dateString: dayjs(
-                `${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`,
+    const res: CalendarDay[] = [];
+
+    for (let i = 0; i < visibleNumberOfDaysFromNextMonth; i++) {
+        res.push({
+            date: dayjs(
+                `${nextMonth.year()}-${nextMonth.month() + 1}-${i + 1}`,
             ).format('YYYY-MM-DD'),
-            dayOfMonth: index + 1,
+            dayOfMonth: i + 1,
             isCurrentMonth: false,
             isNextMonth: true,
-        };
-    });
+            painRecords: [],
+        });
+    }
+
+    return res;
 }
 
 export function getWeekday(dateString: string) {
     return dayjs(dateString).weekday();
-}
-
-export function isWeekendDay(dateString: string) {
-    return [5, 6].includes(getWeekday(dateString));
 }
