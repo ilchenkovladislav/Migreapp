@@ -1,4 +1,3 @@
-import { range } from 'lodash';
 import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
@@ -10,11 +9,15 @@ dayjs.extend(weekOfYear);
 dayjs.locale(ru);
 
 export interface PainRecord {
-    datetime?: string;
     id?: number;
-    name?: string;
-    time?: string;
-    href?: string;
+    date?: string;
+    headache: string;
+    menstrual: string;
+    tookPainMeds: string;
+    painMedsName?: React.Key | null;
+    painMedsQuantity?: string | number;
+    painMedsHelped?: string;
+    comment?: string;
 }
 
 export interface CalendarDay {
@@ -39,24 +42,6 @@ export const daysOfWeekFull = [
 ];
 
 export const daysOfWeekShort = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-
-export function getYearDropdownOptions(currentYear: number) {
-    const minYear = currentYear - 2;
-    const maxYear = currentYear + 2;
-    return range(minYear, maxYear + 1).map((year) => ({
-        label: `${year}`,
-        value: year,
-    }));
-}
-
-export function getMonthDropdownOptions() {
-    return range(1, 13).map((month) => ({
-        value: month,
-        label: dayjs()
-            .month(month - 1)
-            .format('MMMM'),
-    }));
-}
 
 export function getMonthName(month: number) {
     return dayjs()
@@ -158,6 +143,22 @@ export function createDaysForNextMonth(
     }
 
     return res;
+}
+
+export function createCurrentMonthDays(year: number, month: number) {
+    const currentMonthDays = createDaysForCurrentMonth(year, month);
+    const previousMonthDays = createDaysForPreviousMonth(
+        year,
+        month,
+        currentMonthDays,
+    );
+    const nextMonthDays = createDaysForNextMonth(year, month, currentMonthDays);
+
+    return [...previousMonthDays, ...currentMonthDays, ...nextMonthDays];
+}
+
+export function formatDate(dateString: string) {
+    return dayjs(dateString).format('DD.MM.YYYY');
 }
 
 export function getWeekday(dateString: string) {

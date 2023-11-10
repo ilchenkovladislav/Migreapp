@@ -1,3 +1,5 @@
+import { FormEvent } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     Button,
     RadioGroup,
@@ -6,16 +8,17 @@ import {
     Input,
     Textarea,
 } from '@nextui-org/react';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { CustomRadio } from './CustomRadio/CustomRadio.tsx';
+import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
+import { clearState, useHeadacheStore } from './store/store.ts';
+import { AnimateBlock } from './AnimateBlock.tsx';
 
 interface Medicine {
     value: string;
     label: string;
 }
 
-const medicine: Medicine[] = [
+const medicineOptions: Medicine[] = [
     { value: 'Нурофен 400', label: 'Нурофен 400' },
     { value: 'Суматриптан 50', label: 'Суматриптан 50' },
     { value: 'Спазмалгон', label: 'Спазмалгон' },
@@ -23,77 +26,81 @@ const medicine: Medicine[] = [
     { value: 'Золмитриптан', label: 'Золмитриптан' },
 ];
 
-const variants = {
-    open: { opacity: 1, height: 'auto', display: 'grid' },
-    closed: { opacity: 0, height: 0, transitionEnd: { display: 'none' } },
-};
-
 export const CreateForm = () => {
-    const [hasPain, setHasPain] = useState<boolean | null>(null);
-    const [hasMedicine, setHasMedicine] = useState<boolean | null>(null);
+    const {
+        painRecord,
+        setHeadache,
+        setTookPainMeds,
+        setMenstrual,
+        setPainMedsName,
+        setPainMedsQuantity,
+        setPainMedsHelped,
+        setComment,
+        setPainRecord,
+    } = useHeadacheStore();
+
+    const {
+        headache,
+        tookPainMeds,
+        menstrual,
+        painMedsName,
+        painMedsQuantity,
+        painMedsHelped,
+        comment,
+    } = painRecord;
+
+    const { addPainRecord } = useIndexedDB();
+    const { date } = useParams();
+    const navigate = useNavigate();
+
+    const clearForm = () => {
+        setPainRecord(clearState);
+    };
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        addPainRecord({ ...painRecord, date });
+        clearForm();
+
+        navigate('/Migreapp/');
+    };
 
     return (
-        <form
-            className="px-5 py-10 min-h-[95vh] flex"
-            onSubmit={(e) => {
-                e.preventDefault();
-            }}
-        >
-            <div className="grid grid-cols-1 gap-x-6 gap-y-8 grow mt-auto">
+        <form className="px-5 py-10 min-h-[95vh] flex" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 grow mt-auto gap-y-6">
                 <RadioGroup
                     label="У вас болела голова?"
                     orientation="horizontal"
                     size="lg"
-                    value={String(hasPain)}
-                    onValueChange={(value) => {
-                        if (value === 'true') {
-                            setHasPain(true);
-                        } else {
-                            setHasPain(false);
-                        }
-                    }}
+                    value={headache}
+                    onValueChange={setHeadache}
                 >
-                    <CustomRadio value={'true'}>Да</CustomRadio>
-                    <CustomRadio value={'false'}>Нет</CustomRadio>
+                    <CustomRadio value={'Да'}>Да</CustomRadio>
+                    <CustomRadio value={'Нет'}>Нет</CustomRadio>
                 </RadioGroup>
-                <motion.div
-                    className="overflow-hidden grid grid-cols-1 gap-x-6 gap-y-8 grow mt-auto"
-                    animate={
-                        hasPain === true || hasPain === false
-                            ? 'open'
-                            : 'closed'
-                    }
-                    variants={variants}
-                >
+                <AnimateBlock animateCondition={!!headache}>
                     <RadioGroup
                         label="Вы принимали обезболивающие?"
                         orientation="horizontal"
                         size="lg"
-                        value={String(hasMedicine)}
-                        onValueChange={(value) => {
-                            if (value === 'true') {
-                                setHasMedicine(true);
-                            } else {
-                                setHasMedicine(false);
-                            }
-                        }}
+                        value={tookPainMeds}
+                        onValueChange={setTookPainMeds}
                     >
-                        <CustomRadio value={'true'}>Да</CustomRadio>
-                        <CustomRadio value={'false'}>Нет</CustomRadio>
+                        <CustomRadio value={'Да'}>Да</CustomRadio>
+                        <CustomRadio value={'Нет'}>Нет</CustomRadio>
                     </RadioGroup>
-                </motion.div>
+                </AnimateBlock>
 
-                <motion.div
-                    className="overflow-hidden grid grid-cols-1 gap-x-6 gap-y-8 grow mt-auto"
-                    animate={hasMedicine ? 'open' : 'closed'}
-                    variants={variants}
-                >
+                <AnimateBlock animateCondition={tookPainMeds === 'Да'}>
                     <Autocomplete
                         allowsCustomValue
                         label="Какой препарат?"
                         labelPlacement="outside"
                         placeholder="Введите препарат"
-                        defaultItems={medicine}
+                        defaultItems={medicineOptions}
+                        selectedKey={painMedsName}
+                        onSelectionChange={setPainMedsName}
                         // @ts-ignore
                         size="lg"
                     >
@@ -111,43 +118,48 @@ export const CreateForm = () => {
                         label="Количество"
                         placeholder="Введите количество"
                         labelPlacement="outside"
-                        min={0}
+                        min={1}
+                        defaultValue="1"
                         size="lg"
+                        value={String(painMedsQuantity)}
+                        onValueChange={setPainMedsQuantity}
                     />
 
-                    <motion.div
-                        className="overflow-hidden grid grid-cols-1 gap-x-6 gap-y-8 grow mt-auto"
-                        animate={hasPain ? 'open' : 'closed'}
-                        variants={variants}
-                    >
+                    <AnimateBlock animateCondition={headache === 'Да'}>
                         <RadioGroup
                             label="Помогло?"
                             orientation="horizontal"
                             size="lg"
+                            value={painMedsHelped}
+                            onValueChange={setPainMedsHelped}
                         >
-                            <CustomRadio value={true}>Да</CustomRadio>
-                            <CustomRadio value={false}>Нет</CustomRadio>
+                            <CustomRadio value={'Да'}>Да</CustomRadio>
+                            <CustomRadio value={'Нет'}>Нет</CustomRadio>
+                            <CustomRadio value={'Немного'}>Немного</CustomRadio>
                         </RadioGroup>
-                    </motion.div>
-                </motion.div>
+                    </AnimateBlock>
+                </AnimateBlock>
 
-                <motion.div
-                    className="overflow-hidden grid grid-cols-1 gap-x-6 gap-y-8 grow mt-auto"
-                    animate={
-                        (hasPain === true || hasPain === false) &&
-                        (hasMedicine === true || hasMedicine === false)
-                            ? 'open'
-                            : 'closed'
-                    }
-                    variants={variants}
-                >
+                <AnimateBlock animateCondition={!!headache && !!tookPainMeds}>
+                    <RadioGroup
+                        label="У вас менструальный цикл?"
+                        orientation="horizontal"
+                        size="lg"
+                        value={menstrual}
+                        onValueChange={setMenstrual}
+                    >
+                        <CustomRadio value={'Да'}>Да</CustomRadio>
+                        <CustomRadio value={'Нет'}>Нет</CustomRadio>
+                    </RadioGroup>
                     <Textarea
                         label="Комментарии"
                         labelPlacement="outside"
                         placeholder="Опишите дополнительную информацию"
                         size="lg"
+                        value={comment}
+                        onValueChange={setComment}
                     />
-                </motion.div>
+                </AnimateBlock>
 
                 <Button
                     color="primary"

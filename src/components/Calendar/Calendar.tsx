@@ -1,16 +1,18 @@
 import {
-    createDaysForCurrentMonth,
-    createDaysForNextMonth,
-    createDaysForPreviousMonth,
+    CalendarDay,
+    createCurrentMonthDays,
     daysOfWeekFull,
     daysOfWeekShort,
     getMonthName,
+    PainRecord,
 } from '../../utils/calendarUtils.ts';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 import { DatePains } from './DatePains/DatePains.tsx';
 import { Button, ButtonGroup } from '@nextui-org/react';
+import { useEffect, useState } from 'react';
+import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
 
 interface CalendarProps {
     yearAndMonth: [number, number];
@@ -22,6 +24,23 @@ export const Calendar = ({
     onYearAndMonthChange,
 }: CalendarProps) => {
     const [year, month] = yearAndMonth;
+    const { getAllRecords } = useIndexedDB();
+
+    const [calendarDays, setCalendarDays] = useState(
+        createCurrentMonthDays(year, month),
+    );
+
+    const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null);
+    const [painRecords, setPainRecords] = useState<PainRecord[]>([]);
+
+    useEffect(() => {
+        try {
+            setCalendarDays(createCurrentMonthDays(year, month));
+            getAllRecords().then(setPainRecords);
+        } catch (e) {
+            console.error(e);
+        }
+    }, [year, month]);
 
     const handleMonthNavBackButtonClick = () => {
         let nextYear = year;
@@ -43,28 +62,13 @@ export const Calendar = ({
         onYearAndMonthChange([nextYear, nextMonth]);
     };
 
-    const currentMonthDays = createDaysForCurrentMonth(year, month);
-    const previousMonthDays = createDaysForPreviousMonth(
-        year,
-        month,
-        currentMonthDays,
-    );
-    const nextMonthDays = createDaysForNextMonth(year, month, currentMonthDays);
-    const calendarGridDayObjects = [
-        ...previousMonthDays,
-        ...currentMonthDays,
-        ...nextMonthDays,
-    ];
+    const handleClick = (day: CalendarDay) => {
+        setSelectedDay(day);
+    };
 
-    calendarGridDayObjects[10].isSelected = true;
-    calendarGridDayObjects[10].painRecords.push({
-        id: 4,
-        name: 'Maple syrup museum',
-        time: '3PM',
-        datetime: '2022-01-22T15:00',
-        href: '#',
-    });
-    const selectedDay = calendarGridDayObjects.find((day) => day.isSelected);
+    const handleDeleteRecord = (record: PainRecord) => {
+        setPainRecords(painRecords.filter((rec) => rec.id !== record.id));
+    };
 
     return (
         <div className="lg:flex lg:h-full lg:flex-col">
@@ -113,69 +117,13 @@ export const Calendar = ({
                     ))}
                 </div>
                 <div className="flex bg-gray-200 dark:bg-gray-900 text-xs leading-6 text-gray-700 dark:text-gray-100 lg:flex-auto">
-                    <div className="hidden w-full lg:grid lg:grid-cols-7 lg:gap-px">
-                        {calendarGridDayObjects.map((day) => (
-                            <div
-                                key={day.date}
-                                className={classNames(
-                                    {
-                                        'bg-white': day.isCurrentMonth,
-                                        'bg-gray-50 text-gray-500':
-                                            !day.isCurrentMonth,
-                                    },
-                                    'relative px-3 py-2',
-                                )}
-                            >
-                                <time
-                                    dateTime={day.date}
-                                    className={classNames({
-                                        'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white':
-                                            day.isToday,
-                                    })}
-                                >
-                                    {day.dayOfMonth}
-                                </time>
-                                {day.painRecords.length > 0 && (
-                                    <ol className="mt-2">
-                                        {day.painRecords
-                                            .slice(0, 2)
-                                            .map((event) => (
-                                                <li key={event.id}>
-                                                    <a
-                                                        href={event.href}
-                                                        className="group flex"
-                                                    >
-                                                        <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                                                            {event.name}
-                                                        </p>
-                                                        <time
-                                                            dateTime={
-                                                                event.datetime
-                                                            }
-                                                            className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                                                        >
-                                                            {event.time}
-                                                        </time>
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        {day.painRecords.length > 2 && (
-                                            <li className="text-gray-500">
-                                                + {day.painRecords.length - 2}{' '}
-                                                more
-                                            </li>
-                                        )}
-                                    </ol>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    <div className="isolate grid w-full grid-cols-7 gap-px lg:hidden">
-                        {calendarGridDayObjects.map((day) => (
+                    <div className="isolate grid w-full grid-cols-7 gap-px ">
+                        {calendarDays.map((day) => (
                             <button
                                 key={day.date}
                                 type="button"
-                                className={classNames(
+                                onClick={() => handleClick(day)}
+                                className={cn(
                                     day.isCurrentMonth
                                         ? 'bg-background'
                                         : 'bg-background/50',
@@ -194,12 +142,12 @@ export const Calendar = ({
                                         !day.isToday &&
                                         'text-gray-500',
 
-                                    'flex h-14 flex-col px-3 py-2 hover:bg-background/50 focus:z-10',
+                                    'flex h-14 flex-col px-3 py-2 hover:bg-blue-400/20 focus:z-10',
                                 )}
                             >
                                 <time
                                     dateTime={day.date}
-                                    className={classNames(
+                                    className={cn(
                                         day.isSelected &&
                                             'flex h-6 w-6 items-center justify-center rounded-full',
                                         day.isSelected &&
@@ -216,14 +164,28 @@ export const Calendar = ({
                                 <span className="sr-only">
                                     {day.painRecords.length} events
                                 </span>
-                                {day.painRecords.length > 0 && (
+                                {painRecords.length > 0 && (
                                     <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
-                                        {day.painRecords.map((event) => (
-                                            <span
-                                                key={event.id}
-                                                className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"
-                                            />
-                                        ))}
+                                        {painRecords.map((record) => {
+                                            if (record.date === day.date) {
+                                                return (
+                                                    <span
+                                                        key={record.id}
+                                                        className={cn(
+                                                            'mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400',
+                                                            {
+                                                                'bg-red-600':
+                                                                    record.headache ===
+                                                                    'Да',
+                                                                'bg-green-600':
+                                                                    record.headache ===
+                                                                    'Нет',
+                                                            },
+                                                        )}
+                                                    />
+                                                );
+                                            }
+                                        })}
                                     </span>
                                 )}
                             </button>
@@ -232,7 +194,11 @@ export const Calendar = ({
                 </div>
             </div>
 
-            <DatePains selectedDay={selectedDay || null} />
+            <DatePains
+                selectedDay={selectedDay || null}
+                handleDeleteRecord={handleDeleteRecord}
+                painRecords={painRecords}
+            />
         </div>
     );
 };

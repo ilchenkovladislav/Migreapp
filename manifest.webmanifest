@@ -1,8 +1,8 @@
 {
   "name": "Migreapp",
   "short_name": "Migreapp",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "theme_color": "#222222",
+  "background_color": "#222222",
   "display": "standalone",
   "scope": "https://ilchenkovladislav.github.io/Migreapp/",
   "start_url": "https://ilchenkovladislav.github.io/Migreapp/",
