@@ -26,6 +26,16 @@ export const useIndexedDB = () => {
         console.log('Запись успешно добавлена');
     }
 
+    async function addPainRecords(records: any[]) {
+        const db = await openDatabase();
+
+        records.forEach((record) => {
+            db.add(STORE_NAME, { ...record, imported: true });
+        });
+
+        console.log('Запись успешно добавлена');
+    }
+
     async function getRecord(id: number) {
         const db = await openDatabase();
 
@@ -59,6 +69,7 @@ export const useIndexedDB = () => {
 
     return {
         addPainRecord,
+        addPainRecords,
         getAllRecords,
         getRecord,
         getPainRecordsByDateRange,

@@ -4,6 +4,7 @@ import { Calendar } from './components/Calendar/Calendar.tsx';
 import { getCurrentMonth, getCurrentYear } from './utils/calendarUtils.ts';
 import { Routes, Route } from 'react-router-dom';
 import { CreateForm } from './components/CreateForm/CreateForm.tsx';
+import { FileUploader } from './components/FileUploader/FileUploader.tsx';
 
 function App() {
     const [yearAndMonth, setYearAndMonth] = useState<[number, number]>([
@@ -12,7 +13,10 @@ function App() {
     ]);
     return (
         <>
-            <ThemeSwitcher />
+            <header className="flex justify-between p-4">
+                <FileUploader />
+                <ThemeSwitcher />
+            </header>
             <Routes>
                 <Route
                     path="Migreapp/"
