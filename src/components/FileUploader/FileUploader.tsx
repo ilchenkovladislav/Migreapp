@@ -1,10 +1,14 @@
 import { ChangeEvent } from 'react';
 import { read, utils } from 'xlsx';
 import { Button } from '@nextui-org/react';
+import { PainRecord } from '../../utils/calendarUtils.ts';
+import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
 
 type Xlsx = Record<string, string>;
 
 export const FileUploader = () => {
+    const { addPainRecords } = useIndexedDB();
+
     const readUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         if (e.target.files) {
@@ -20,7 +24,7 @@ export const FileUploader = () => {
 
                 json.forEach((el) => {
                     const res: string[] = [];
-                    const dayData: any = {};
+                    const dayData: Partial<PainRecord> = {};
 
                     const days = Object.entries(el);
 
@@ -31,7 +35,7 @@ export const FileUploader = () => {
                                 break;
                             }
                             case 'Головная боль': {
-                                dayData.pain = value;
+                                dayData.headache = value;
                                 break;
                             }
                             case 'Менструальный цикл': {
@@ -39,28 +43,31 @@ export const FileUploader = () => {
                                 break;
                             }
                             case 'Принятые медикаменты': {
+                                dayData.tookPainMeds = 'Да';
+                                dayData.painMedsQuantity = 1;
+
                                 const arr = value.split(',');
                                 if (arr.length > 1) {
                                     const [medicine, didHelp] = arr;
-                                    dayData.medicine = medicine;
+                                    dayData.painMedsName = medicine;
                                     switch (didHelp.trim().toLowerCase()) {
                                         case 'да':
                                         case 'помогло': {
-                                            dayData.didHelp = 'Да';
+                                            dayData.painMedsHelped = 'Да';
                                             break;
                                         }
                                         case 'не помогло':
                                         case 'нет': {
-                                            dayData.didHelp = 'Нет';
+                                            dayData.painMedsHelped = 'Нет';
                                             break;
                                         }
                                         case 'немного': {
-                                            dayData.didHelp = 'Немного';
+                                            dayData.painMedsHelped = 'Немного';
                                             break;
                                         }
                                     }
                                 } else {
-                                    dayData.medicine = value;
+                                    dayData.painMedsName = value;
                                 }
                                 break;
                             }
@@ -79,15 +86,21 @@ export const FileUploader = () => {
                     }
                     parsedData.push(dayData);
                 });
+
+                if (parsedData.length) {
+                    addPainRecords(parsedData);
+                }
             };
             reader.readAsArrayBuffer(e.target.files[0]);
         }
     };
 
     return (
-        <form>
+        <form className="">
             <label htmlFor="uploader">
-                <Button as="div">Импорт</Button>
+                <Button as="div" variant="bordered">
+                    Импорт
+                </Button>
                 <input
                     type="file"
                     id="uploader"

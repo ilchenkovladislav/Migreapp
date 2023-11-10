@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import { Key } from 'react';
 
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
@@ -14,7 +15,7 @@ export interface PainRecord {
     headache: string;
     menstrual: string;
     tookPainMeds: string;
-    painMedsName?: React.Key | null;
+    painMedsName?: Key | null;
     painMedsQuantity?: string | number;
     painMedsHelped?: string;
     comment?: string;

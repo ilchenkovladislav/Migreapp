@@ -10,7 +10,7 @@ export const ThemeSwitcher = () => {
             startContent={<BsSunFill />}
             endContent={<BsMoonFill />}
             isSelected={theme === 'light'}
-            size="sm"
+            size="md"
             onValueChange={(isSelected) => {
                 isSelected ? setTheme('light') : setTheme('dark');
             }}
