@@ -5,6 +5,7 @@ import { getCurrentMonth, getCurrentYear } from './utils/calendarUtils.ts';
 import { Routes, Route } from 'react-router-dom';
 import { CreateForm } from './components/CreateForm/CreateForm.tsx';
 import { FileUploader } from './components/FileUploader/FileUploader.tsx';
+import AppTable from './components/Table/AppTable.tsx';
 
 function App() {
     const [yearAndMonth, setYearAndMonth] = useState<[number, number]>([
@@ -28,6 +29,7 @@ function App() {
                         />
                     }
                 />
+                <Route path="Migreapp/table" element={<AppTable />} />
                 <Route path="Migreapp/form/:date" element={<CreateForm />} />
                 <Route path="*" element={<div>Не нашлось</div>} />
             </Routes>
