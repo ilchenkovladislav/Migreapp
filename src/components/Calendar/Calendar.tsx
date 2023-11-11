@@ -197,7 +197,9 @@ export const Calendar = ({
             <DatePains
                 selectedDay={selectedDay || null}
                 handleDeleteRecord={handleDeleteRecord}
-                painRecords={painRecords}
+                painRecords={painRecords.filter(
+                    (record) => record.date === selectedDay?.date,
+                )}
             />
         </div>
     );

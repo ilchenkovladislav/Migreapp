@@ -67,7 +67,10 @@ export const CreateForm = () => {
     };
 
     return (
-        <form className="px-5 py-10 min-h-[95vh] flex" onSubmit={handleSubmit}>
+        <form
+            className="px-5 pt-2 pb-10 min-h-[90vh] flex"
+            onSubmit={handleSubmit}
+        >
             <div className="grid grid-cols-1 grow mt-auto gap-y-6">
                 <RadioGroup
                     label="У вас болела голова?"
