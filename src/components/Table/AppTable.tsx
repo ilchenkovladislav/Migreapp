@@ -236,7 +236,7 @@ export default function AppTable() {
             bottomContent={bottomContent}
             bottomContentPlacement="outside"
             classNames={{
-                wrapper: 'max-h-[550px]',
+                wrapper: 'max-h-[500px]',
                 base: 'px-4',
             }}
             selectedKeys={selectedKeys}
