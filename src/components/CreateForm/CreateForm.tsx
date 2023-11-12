@@ -104,7 +104,6 @@ export const CreateForm = () => {
                         defaultItems={medicineOptions}
                         selectedKey={painMedsName}
                         onSelectionChange={setPainMedsName}
-                        // @ts-ignore
                         size="lg"
                     >
                         {(item) => (
