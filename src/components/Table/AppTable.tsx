@@ -136,17 +136,19 @@ export default function AppTable() {
                         ? 'Выбраны все записи'
                         : `${selectedKeys.size} из ${filteredItems.length} выбрано`}
                 </p>
-                <div className="py-2 px-2 flex justify-center items-center">
-                    <Pagination
-                        isCompact
-                        showControls
-                        showShadow
-                        color="primary"
-                        page={page}
-                        total={pages}
-                        onChange={setPage}
-                    />
-                </div>
+                {pages > 0 ? (
+                    <div className="py-2 px-2 flex justify-center items-center">
+                        <Pagination
+                            isCompact
+                            showControls
+                            showShadow
+                            color="primary"
+                            page={page}
+                            total={pages}
+                            onChange={setPage}
+                        />
+                    </div>
+                ) : null}
             </div>
         );
     }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
