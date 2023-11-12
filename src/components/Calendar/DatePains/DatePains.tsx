@@ -1,13 +1,10 @@
-import {
-    CalendarDay,
-    formatDate,
-    PainRecord,
-} from '../../../utils/calendarUtils.ts';
+import { formatDate } from '../../../utils/calendarUtils.ts';
 import { Accordion, AccordionItem, Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { useIndexedDB } from '../../../hooks/useIndexedDB.ts';
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
+import { CalendarDay, PainRecord } from '../../../types/types.ts';
 
 interface DatePainsProps {
     selectedDay: CalendarDay | null;

@@ -1,10 +1,8 @@
 import {
-    CalendarDay,
     createCurrentMonthDays,
     daysOfWeekFull,
     daysOfWeekShort,
     getMonthName,
-    PainRecord,
 } from '../../utils/calendarUtils.ts';
 import cn from 'classnames';
 
@@ -13,6 +11,7 @@ import { DatePains } from './DatePains/DatePains.tsx';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
+import { CalendarDay, PainRecord } from '../../types/types.ts';
 
 interface CalendarProps {
     yearAndMonth: [number, number];

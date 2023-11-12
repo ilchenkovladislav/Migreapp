@@ -16,10 +16,11 @@ import {
     Spinner,
 } from '@nextui-org/react';
 import { columns } from './data';
-import { formatDate, PainRecord } from '../../utils/calendarUtils.ts';
+import { formatDate } from '../../utils/calendarUtils.ts';
 import { HiChevronDown } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
 import { useAppTable } from './useAppTable.ts';
+import { PainRecord } from '../../types/types.ts';
 
 export default function AppTable() {
     const {

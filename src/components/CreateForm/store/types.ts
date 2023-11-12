@@ -1,5 +1,6 @@
 import { Key } from 'react';
-import { PainRecord } from '../../../utils/calendarUtils.ts';
+
+import { PainRecord } from '../../../types/types.ts';
 
 export type HeadacheStore = {
     painRecord: PainRecord;

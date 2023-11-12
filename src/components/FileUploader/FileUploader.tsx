@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react';
 import { read, utils } from 'xlsx';
 import { Button } from '@nextui-org/react';
-import { PainRecord } from '../../utils/calendarUtils.ts';
 import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
+import { PainRecord } from '../../types/types.ts';
 
 type Xlsx = Record<string, string>;
 

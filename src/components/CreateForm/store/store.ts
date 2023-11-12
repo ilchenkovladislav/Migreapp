@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { PainRecord } from '../../../utils/calendarUtils.ts';
 import { HeadacheStore } from './types.ts';
+import { PainRecord } from '../../../types/types.ts';
 
 export const initialState: PainRecord = {
     headache: '',

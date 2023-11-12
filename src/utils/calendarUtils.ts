@@ -2,35 +2,12 @@ import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import { Key } from 'react';
+import { CalendarDay } from '../types/types.ts';
 
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
 
 dayjs.locale(ru);
-
-export interface PainRecord {
-    id?: number;
-    date?: string;
-    headache: string;
-    menstrual: string;
-    tookPainMeds: string;
-    painMedsName?: Key | null;
-    painMedsQuantity?: string | number;
-    painMedsHelped?: string;
-    comment?: string;
-}
-
-export interface CalendarDay {
-    date: string;
-    dayOfMonth: number;
-    isPreviousMonth?: boolean;
-    isCurrentMonth: boolean;
-    isNextMonth?: boolean;
-    isToday?: boolean;
-    painRecords: PainRecord[];
-    isSelected?: boolean;
-}
 
 export const daysOfWeekFull = [
     'Понедельник',
@@ -79,7 +56,6 @@ export function createDaysForCurrentMonth(
             dayOfMonth: i + 1,
             isCurrentMonth: true,
             isToday: isToday(currentDate),
-            painRecords: [],
         });
     }
 
@@ -111,7 +87,6 @@ export function createDaysForPreviousMonth(
             ).format('YYYY-MM-DD'),
             dayOfMonth: previousMonthLastMondayDayOfMonth + i,
             isCurrentMonth: false,
-            painRecords: [],
         });
     }
 
@@ -139,7 +114,6 @@ export function createDaysForNextMonth(
             dayOfMonth: i + 1,
             isCurrentMonth: false,
             isNextMonth: true,
-            painRecords: [],
         });
     }
 

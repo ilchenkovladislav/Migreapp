@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
-import { formatDate, PainRecord } from '../../utils/calendarUtils.ts';
+import { formatDate } from '../../utils/calendarUtils.ts';
 import { Selection, SortDescriptor } from '@nextui-org/react';
 import { columns } from './data.ts';
+import { PainRecord } from '../../types/types.ts';
 
 const INITIAL_VISIBLE_COLUMNS = [
     'date',
