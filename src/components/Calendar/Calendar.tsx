@@ -83,6 +83,7 @@ export const Calendar = ({
                         type="button"
                         onClick={handleMonthNavBackButtonClick}
                         radius="sm"
+                        variant="bordered"
                     >
                         <span className="sr-only">Предыдущий месяц</span>
                         <HiChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -91,6 +92,7 @@ export const Calendar = ({
                         type="button"
                         onClick={handleMonthNavForwardButtonClick}
                         radius="sm"
+                        variant="bordered"
                     >
                         <span className="sr-only">Следующий месяц</span>
                         <HiChevronRight

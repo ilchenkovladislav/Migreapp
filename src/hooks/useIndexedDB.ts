@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 // Подключение библиотеки idb
 import { openDB } from 'idb';
 
@@ -21,19 +22,26 @@ export const useIndexedDB = () => {
     async function addPainRecord(record: any) {
         const db = await openDatabase();
 
-        await db.add(STORE_NAME, record);
-
-        console.log('Запись успешно добавлена');
+        await db
+            .add(STORE_NAME, record)
+            .then(() => {
+                toast.success('Запись успешно добавлена');
+            })
+            .catch((e) => toast.error(e));
     }
 
     async function addPainRecords(records: any[]) {
         const db = await openDatabase();
 
-        records.forEach((record) => {
-            db.add(STORE_NAME, { ...record, imported: true });
-        });
+        const promises = records.map((record) =>
+            db.add(STORE_NAME, { ...record, imported: true }),
+        );
 
-        console.log('Запись успешно добавлена');
+        Promise.allSettled(promises)
+            .then(() => {
+                toast.success('Записи успешно импортированы');
+            })
+            .catch((e) => toast.error(e));
     }
 
     async function getRecord(id: number) {
@@ -52,7 +60,12 @@ export const useIndexedDB = () => {
     async function deleteRecord(key: IDBValidKey) {
         const db = await openDatabase();
 
-        return await db.delete(STORE_NAME, key);
+        return await db
+            .delete(STORE_NAME, key)
+            .then(() => {
+                toast.success('Записи успешно удалена');
+            })
+            .catch((e) => toast.error(e));
     }
 
     async function getPainRecordsByDateRange(startDate: any, endDate: any) {

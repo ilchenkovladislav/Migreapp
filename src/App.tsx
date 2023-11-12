@@ -7,6 +7,7 @@ import { CreateForm } from './components/CreateForm/CreateForm.tsx';
 import { FileUploader } from './components/FileUploader/FileUploader.tsx';
 import AppTable from './components/Table/AppTable.tsx';
 import { Tab, Tabs } from '@nextui-org/react';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
     const [yearAndMonth, setYearAndMonth] = useState<[number, number]>([
@@ -58,6 +59,11 @@ function App() {
                     title="Таблица"
                 />
             </Tabs>
+            <Toaster
+                toastOptions={{
+                    className: 'bg-background text-foreground',
+                }}
+            />
         </>
     );
 }

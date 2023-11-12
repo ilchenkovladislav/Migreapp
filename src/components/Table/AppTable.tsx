@@ -40,6 +40,7 @@ export default function AppTable() {
         sortDescriptor,
         setSortDescriptor,
         headerColumns,
+        isLoading,
     } = useAppTable();
 
     const renderCell = useCallback((record: PainRecord, columnKey: Key) => {
@@ -73,7 +74,7 @@ export default function AppTable() {
     const topContent = useMemo(() => {
         return (
             <div className="flex flex-col gap-4">
-                <div className="flex justify-between gap-3 items-end">
+                <div className="flex justify-between sm:gap-3 items-end">
                     <Input
                         isClearable
                         className="w-full sm:max-w-[44%]"
@@ -184,7 +185,7 @@ export default function AppTable() {
             <TableBody
                 emptyContent={'Нет записей'}
                 items={items}
-                isLoading={!items.length}
+                isLoading={isLoading}
                 loadingContent={<Spinner label="Загрузка..." />}
             >
                 {(item) => (

@@ -20,6 +20,7 @@ export const useAppTable = () => {
     const [painRecords, usePainRecords] = useState<PainRecord[]>([]);
     const [filterValue, setFilterValue] = useState('');
     const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
+    const [isLoading, setIsLoading] = useState(true);
     const [visibleColumns, setVisibleColumns] = useState<Selection>(
         new Set(INITIAL_VISIBLE_COLUMNS),
     );
@@ -32,7 +33,11 @@ export const useAppTable = () => {
     const { getAllRecords } = useIndexedDB();
 
     useEffect(() => {
-        getAllRecords().then(usePainRecords);
+        getAllRecords()
+            .then(usePainRecords)
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, []);
 
     const hasSearchFilter = Boolean(filterValue);
@@ -114,5 +119,6 @@ export const useAppTable = () => {
         setSelectedKeys,
         setSortDescriptor,
         headerColumns,
+        isLoading,
     };
 };
