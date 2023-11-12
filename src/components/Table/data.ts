@@ -8,7 +8,6 @@ const columns = [
     { name: 'Количество', uid: 'painMedsQuantity', sortable: true },
     { name: 'Помогло', uid: 'painMedsHelped', sortable: true },
     { name: 'Комментарий', uid: 'comment' },
-    { name: 'ACTIONS', uid: 'actions' },
 ];
 
 const statusOptions = [

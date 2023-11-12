@@ -49,23 +49,6 @@ export default function AppTable() {
         switch (columnKey) {
             case 'date':
                 return <div>{formatDate(cellValue as string)}</div>;
-            case 'actions':
-                return (
-                    <div className="relative flex justify-end items-center gap-2">
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button size="sm" variant="light">
-                                    Иконка
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu>
-                                <DropdownItem>View</DropdownItem>
-                                <DropdownItem>Edit</DropdownItem>
-                                <DropdownItem>Delete</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                );
             default:
                 return cellValue;
         }
