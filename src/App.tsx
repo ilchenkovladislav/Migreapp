@@ -61,7 +61,7 @@ function App() {
             </Tabs>
             <Toaster
                 toastOptions={{
-                    className: 'bg-background text-foreground',
+                    className: '!bg-background !text-foreground ',
                 }}
             />
         </>
