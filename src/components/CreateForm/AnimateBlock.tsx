@@ -6,10 +6,14 @@ const variants = {
         opacity: 1,
         height: 'auto',
         display: 'grid',
-        rowGap: '1.5rem',
-        columnGap: '2rem',
     },
-    closed: { opacity: 0, height: 0, transitionEnd: { display: 'none' } },
+    closed: {
+        opacity: 0,
+        height: 0,
+        transitionEnd: {
+            display: 'none',
+        },
+    },
 };
 
 type AnimateBlockProps = {
@@ -23,7 +27,8 @@ export const AnimateBlock = ({
 }: AnimateBlockProps) => {
     return (
         <motion.div
-            className="overflow-hidden hidden grid-cols-1 grow mt-auto"
+            className="overflow-hidden hidden grid-cols-1 grow mt-auto gap-x-8 gap-y-6"
+            initial={false}
             animate={animateCondition ? 'open' : 'closed'}
             variants={variants}
         >
