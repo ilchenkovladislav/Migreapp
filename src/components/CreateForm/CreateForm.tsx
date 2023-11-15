@@ -1,5 +1,3 @@
-import { FormEvent } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import {
     Button,
     RadioGroup,
@@ -9,16 +7,19 @@ import {
     Textarea,
 } from '@nextui-org/react';
 import { CustomRadio } from './CustomRadio/CustomRadio.tsx';
-import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
-import { clearState, useHeadacheStore } from './store/store.ts';
+import { useHeadacheStore } from './store/store.ts';
 import { AnimateBlock } from './AnimateBlock.tsx';
+import {
+    HeadacheVariants,
+    MenstrualVariants,
+    PainMedsHelpedVariants,
+    TookPainMedsVariants,
+    Variants,
+    medicineOption,
+} from './types/radioOptions.ts';
+import { useCreateForm } from './hooks/useCreateForm.ts';
 
-interface Medicine {
-    value: string;
-    label: string;
-}
-
-const medicineOptions: Medicine[] = [
+const medicineOptions: medicineOption[] = [
     { value: 'Нурофен 400', label: 'Нурофен 400' },
     { value: 'Суматриптан 50', label: 'Суматриптан 50' },
     { value: 'Спазмалгон', label: 'Спазмалгон' },
@@ -36,7 +37,6 @@ export const CreateForm = () => {
         setPainMedsQuantity,
         setPainMedsHelped,
         setComment,
-        setPainRecord,
     } = useHeadacheStore();
 
     const {
@@ -49,21 +49,14 @@ export const CreateForm = () => {
         comment,
     } = painRecord;
 
-    const { addPainRecord } = useIndexedDB();
-    const { date } = useParams();
-    const navigate = useNavigate();
+    const { handleSubmit } = useCreateForm();
 
-    const clearForm = () => {
-        setPainRecord(clearState);
-    };
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        addPainRecord({ ...painRecord, date });
-        clearForm();
-
-        navigate('/Migreapp/');
+    const renderRadioOptions = (variants: Variants) => {
+        return Object.values(variants).map((value) => (
+            <CustomRadio key={value} value={value}>
+                {value}
+            </CustomRadio>
+        ));
     };
 
     return (
@@ -79,8 +72,7 @@ export const CreateForm = () => {
                     value={headache}
                     onValueChange={setHeadache}
                 >
-                    <CustomRadio value={'Да'}>Да</CustomRadio>
-                    <CustomRadio value={'Нет'}>Нет</CustomRadio>
+                    {renderRadioOptions(HeadacheVariants)}
                 </RadioGroup>
                 <AnimateBlock animateCondition={!!headache}>
                     <RadioGroup
@@ -90,12 +82,13 @@ export const CreateForm = () => {
                         value={tookPainMeds}
                         onValueChange={setTookPainMeds}
                     >
-                        <CustomRadio value={'Да'}>Да</CustomRadio>
-                        <CustomRadio value={'Нет'}>Нет</CustomRadio>
+                        {renderRadioOptions(TookPainMedsVariants)}
                     </RadioGroup>
                 </AnimateBlock>
 
-                <AnimateBlock animateCondition={tookPainMeds === 'Да'}>
+                <AnimateBlock
+                    animateCondition={tookPainMeds === TookPainMedsVariants.Yes}
+                >
                     <Autocomplete
                         allowsCustomValue
                         label="Какой препарат?"
@@ -127,7 +120,9 @@ export const CreateForm = () => {
                         onValueChange={setPainMedsQuantity}
                     />
 
-                    <AnimateBlock animateCondition={headache === 'Да'}>
+                    <AnimateBlock
+                        animateCondition={headache === HeadacheVariants.Yes}
+                    >
                         <RadioGroup
                             label="Помогло?"
                             orientation="horizontal"
@@ -135,9 +130,7 @@ export const CreateForm = () => {
                             value={painMedsHelped}
                             onValueChange={setPainMedsHelped}
                         >
-                            <CustomRadio value={'Да'}>Да</CustomRadio>
-                            <CustomRadio value={'Нет'}>Нет</CustomRadio>
-                            <CustomRadio value={'Немного'}>Немного</CustomRadio>
+                            {renderRadioOptions(PainMedsHelpedVariants)}
                         </RadioGroup>
                     </AnimateBlock>
                 </AnimateBlock>
@@ -150,8 +143,7 @@ export const CreateForm = () => {
                         value={menstrual}
                         onValueChange={setMenstrual}
                     >
-                        <CustomRadio value={'Да'}>Да</CustomRadio>
-                        <CustomRadio value={'Нет'}>Нет</CustomRadio>
+                        {renderRadioOptions(MenstrualVariants)}
                     </RadioGroup>
                     <Textarea
                         label="Комментарии"

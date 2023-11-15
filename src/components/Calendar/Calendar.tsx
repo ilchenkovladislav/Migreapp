@@ -162,9 +162,6 @@ export const Calendar = ({
                                 >
                                     {day.dayOfMonth}
                                 </time>
-                                <span className="sr-only">
-                                    {day.painRecords.length} events
-                                </span>
                                 {painRecords.length > 0 && (
                                     <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
                                         {painRecords.map((record) => {
