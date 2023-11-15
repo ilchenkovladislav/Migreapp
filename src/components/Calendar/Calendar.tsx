@@ -12,6 +12,7 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
 import { CalendarDay, PainRecord } from '../../types/types.ts';
+import { useAppStore } from '../../store/store.ts';
 
 interface CalendarProps {
     yearAndMonth: [number, number];
@@ -30,7 +31,7 @@ export const Calendar = ({
     );
 
     const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null);
-    const [painRecords, setPainRecords] = useState<PainRecord[]>([]);
+    const { painRecords, setPainRecords } = useAppStore();
 
     useEffect(() => {
         try {

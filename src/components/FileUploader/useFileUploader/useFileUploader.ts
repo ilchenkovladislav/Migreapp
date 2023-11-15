@@ -4,9 +4,11 @@ import { Xlsx } from '../types/FileUploaderTypes.ts';
 import { transformJsonToPainRecords } from '../utils/FileUploaderUtils.ts';
 import toast from 'react-hot-toast';
 import { ChangeEvent } from 'react';
+import { useAppStore } from '../../../store/store.ts';
 
 export const useFileUploader = () => {
-    const { addPainRecords } = useIndexedDB();
+    const { addPainRecords, getAllRecords } = useIndexedDB();
+    const { setPainRecords } = useAppStore();
 
     const handleFileLoad = (reader: ProgressEvent<FileReader>) => {
         if (!reader.target) return;
@@ -20,7 +22,9 @@ export const useFileUploader = () => {
         const transformedData = transformJsonToPainRecords(json);
 
         if (transformedData.length) {
-            addPainRecords(transformedData);
+            addPainRecords(transformedData).then(() => {
+                getAllRecords().then(setPainRecords);
+            });
         }
     };
 
