@@ -7,13 +7,8 @@ const columns = [
     { name: 'Название', uid: 'painMedsName', sortable: true },
     { name: 'Количество', uid: 'painMedsQuantity', sortable: true },
     { name: 'Помогло', uid: 'painMedsHelped', sortable: true },
+    { name: 'Импортировано', uid: 'imported', sortable: true },
     { name: 'Комментарий', uid: 'comment' },
 ];
 
-const statusOptions = [
-    { name: 'Active', uid: 'active' },
-    { name: 'Paused', uid: 'paused' },
-    { name: 'Vacation', uid: 'vacation' },
-];
-
-export { columns, statusOptions };
+export { columns };

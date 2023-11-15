@@ -4,6 +4,7 @@ import { formatDate } from '../../utils/calendarUtils.ts';
 import { Selection, SortDescriptor } from '@nextui-org/react';
 import { columns } from './data.ts';
 import { PainRecord } from '../../types/types.ts';
+import { useAppStore } from '../../store/store.ts';
 
 const INITIAL_VISIBLE_COLUMNS = [
     'date',
@@ -18,7 +19,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 const ROWS_PER_PAGE = 20;
 
 export const useAppTable = () => {
-    const [painRecords, usePainRecords] = useState<PainRecord[]>([]);
+    const { painRecords, setPainRecords } = useAppStore();
     const [filterValue, setFilterValue] = useState('');
     const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
     const [isLoading, setIsLoading] = useState(true);
@@ -31,11 +32,11 @@ export const useAppTable = () => {
     });
 
     const [page, setPage] = useState(1);
-    const { getAllRecords } = useIndexedDB();
+    const { getAllRecords, deleteRecords, clearRecords } = useIndexedDB();
 
     useEffect(() => {
         getAllRecords()
-            .then(usePainRecords)
+            .then(setPainRecords)
             .finally(() => {
                 setIsLoading(false);
             });
@@ -102,6 +103,18 @@ export const useAppTable = () => {
         setPage(1);
     }, []);
 
+    const handleDeleteSelected = (selectedKeys: Selection) => {
+        if (selectedKeys === 'all') {
+            clearRecords().then(() => setPainRecords([]));
+        } else {
+            deleteRecords([...selectedKeys.values()]).then(() => {
+                getAllRecords().then(setPainRecords);
+            });
+        }
+
+        setSelectedKeys(new Set([]));
+    };
+
     return {
         painRecords,
         filterValue,
@@ -121,5 +134,6 @@ export const useAppTable = () => {
         setSortDescriptor,
         headerColumns,
         isLoading,
+        handleDeleteSelected,
     };
 };

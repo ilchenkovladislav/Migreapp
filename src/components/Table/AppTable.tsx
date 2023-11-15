@@ -42,6 +42,7 @@ export default function AppTable() {
         setSortDescriptor,
         headerColumns,
         isLoading,
+        handleDeleteSelected,
     } = useAppTable();
 
     const renderCell = useCallback((record: PainRecord, columnKey: Key) => {
@@ -50,6 +51,8 @@ export default function AppTable() {
         switch (columnKey) {
             case 'date':
                 return <div>{formatDate(cellValue as string)}</div>;
+            case 'imported':
+                return <div>{cellValue ? 'Да' : null}</div>;
             default:
                 return cellValue;
         }
@@ -68,40 +71,48 @@ export default function AppTable() {
                         onClear={() => onClear()}
                         onValueChange={onSearchChange}
                     />
-                    <div className="flex gap-3">
-                        <Dropdown>
-                            <DropdownTrigger className="hidden sm:flex">
-                                <Button
-                                    endContent={<HiChevronDown />}
-                                    variant="flat"
-                                >
-                                    Колонки
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                                disallowEmptySelection
-                                aria-label="Table Columns"
-                                closeOnSelect={false}
-                                selectedKeys={visibleColumns}
-                                selectionMode="multiple"
-                                onSelectionChange={setVisibleColumns}
-                            >
-                                {columns.map((column) => (
-                                    <DropdownItem
-                                        key={column.uid}
-                                        className="capitalize"
-                                    >
-                                        {column.name}
-                                    </DropdownItem>
-                                ))}
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
                 </div>
                 <div className="flex justify-between items-center">
                     <span className="text-default-400 text-small">
                         Всего записей: {painRecords.length}
                     </span>
+
+                    {(selectedKeys === 'all' || selectedKeys.size > 0) && (
+                        <Button
+                            color="primary"
+                            onClick={() => handleDeleteSelected(selectedKeys)}
+                        >
+                            Удалить
+                        </Button>
+                    )}
+
+                    <Dropdown>
+                        <DropdownTrigger className="flex">
+                            <Button
+                                endContent={<HiChevronDown />}
+                                variant="flat"
+                            >
+                                Колонки
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                            disallowEmptySelection
+                            aria-label="Table Columns"
+                            closeOnSelect={false}
+                            selectedKeys={visibleColumns}
+                            selectionMode="multiple"
+                            onSelectionChange={setVisibleColumns}
+                        >
+                            {columns.map((column) => (
+                                <DropdownItem
+                                    key={column.uid}
+                                    className="capitalize"
+                                >
+                                    {column.name}
+                                </DropdownItem>
+                            ))}
+                        </DropdownMenu>
+                    </Dropdown>
                 </div>
             </div>
         );
@@ -111,6 +122,7 @@ export default function AppTable() {
         onSearchChange,
         painRecords.length,
         hasSearchFilter,
+        selectedKeys,
     ]);
 
     const bottomContent = useMemo(() => {

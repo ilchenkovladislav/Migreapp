@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 // Подключение библиотеки idb
 import { openDB } from 'idb';
+import { Key } from 'react';
 
 const STORE_NAME = 'painRecords';
 
@@ -63,7 +64,31 @@ export const useIndexedDB = () => {
         return await db
             .delete(STORE_NAME, key)
             .then(() => {
-                toast.success('Записи успешно удалена');
+                toast.success('Запись успешно удалена');
+            })
+            .catch((e) => toast.error(e));
+    }
+
+    async function deleteRecords(keys: Key[]) {
+        const db = await openDatabase();
+
+        const promises = keys.map((key) => {
+            return db.delete(STORE_NAME, Number(key));
+        });
+
+        Promise.allSettled(promises)
+            .then(() => {
+                toast.success('Записи успешно удалены');
+            })
+            .catch((e) => toast.error(e));
+    }
+
+    async function clearRecords() {
+        const db = await openDatabase();
+
+        db.clear(STORE_NAME)
+            .then(() => {
+                toast.success('Записи успешно удалены');
             })
             .catch((e) => toast.error(e));
     }
@@ -87,5 +112,7 @@ export const useIndexedDB = () => {
         getRecord,
         getPainRecordsByDateRange,
         deleteRecord,
+        deleteRecords,
+        clearRecords,
     };
 };
