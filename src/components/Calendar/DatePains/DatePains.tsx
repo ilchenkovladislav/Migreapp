@@ -28,7 +28,7 @@ export const DatePains = ({
     if (!selectedDay) return;
 
     const clickHandler = (date: string) => {
-        navigate(`/Migreapp/form/${date}`);
+        navigate(`form/${date}`);
     };
 
     const handleDelete = (record: PainRecord) => {

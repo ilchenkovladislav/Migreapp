@@ -20,7 +20,7 @@ export const useCreateForm = () => {
         addPainRecord({ ...painRecord, date });
         clearForm();
 
-        navigate('/Migreapp/');
+        navigate('/');
     };
 
     return { handleSubmit };

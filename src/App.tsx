@@ -7,6 +7,7 @@ import { CreateForm } from './components/CreateForm/CreateForm.tsx';
 import { FileUploader } from './components/FileUploader/FileUploader.tsx';
 import AppTable from './components/Table/AppTable.tsx';
 import { Tab, Tabs } from '@nextui-org/react';
+import { Link, Tab, Tabs } from '@nextui-org/react';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Routes>
                 <Route
                     path="Migreapp/"
+                    path="/"
                     index
                     element={
                         <Calendar
@@ -36,6 +38,8 @@ function App() {
                 />
                 <Route path="Migreapp/table" element={<AppTable />} />
                 <Route path="Migreapp/form/:date" element={<CreateForm />} />
+                <Route path="/table" element={<AppTable />} />
+                <Route path="/form/:date" element={<CreateForm />} />
                 <Route path="*" element={<div>Не нашлось</div>} />
             </Routes>
             <Tabs
@@ -58,6 +62,8 @@ function App() {
                     href="/Migreapp/table"
                     title="Таблица"
                 />
+                <Tab as={Link} key="/" href="/" title="Календарь" />
+                <Tab as={Link} key="/table" href="/table" title="Таблица" />
             </Tabs>
             <Toaster
                 toastOptions={{
