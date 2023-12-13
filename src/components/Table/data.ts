@@ -1,13 +1,13 @@
 const columns = [
     { name: 'Id', uid: 'id', sortable: true },
     { name: 'Дата', uid: 'date', sortable: true },
-    { name: 'Боль', uid: 'headache', sortable: true },
-    { name: 'Цикл', uid: 'menstrual', sortable: true },
-    { name: 'Обезбол', uid: 'tookPainMeds', sortable: true },
-    { name: 'Название', uid: 'painMedsName', sortable: true },
+    { name: 'Боль', uid: 'headache' },
+    { name: 'Цикл', uid: 'menstrual' },
+    { name: 'Обезбол', uid: 'tookPainMeds' },
+    { name: 'Название', uid: 'painMedsName' },
     { name: 'Количество', uid: 'painMedsQuantity', sortable: true },
-    { name: 'Помогло', uid: 'painMedsHelped', sortable: true },
-    { name: 'Импортировано', uid: 'imported', sortable: true },
+    { name: 'Помогло', uid: 'painMedsHelped' },
+    { name: 'Импортировано', uid: 'imported' },
     { name: 'Комментарий', uid: 'comment' },
 ];
 

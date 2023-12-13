@@ -7,7 +7,7 @@ export const FileUploader = () => {
     return (
         <form className="">
             <label htmlFor="uploader">
-                <Button as="div" variant="bordered">
+                <Button as="div" fullWidth radius="sm">
                     Импорт
                 </Button>
                 <input

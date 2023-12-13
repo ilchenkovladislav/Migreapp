@@ -1,14 +1,12 @@
-import { ThemeSwitcher } from './components/ThemeSwitcher/ThemeSwitcher.tsx';
 import { useState } from 'react';
 import { Calendar } from './components/Calendar/Calendar.tsx';
 import { getCurrentMonth, getCurrentYear } from './utils/calendarUtils.ts';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { CreateForm } from './components/CreateForm/CreateForm.tsx';
-import { FileUploader } from './components/FileUploader/FileUploader.tsx';
 import AppTable from './components/Table/AppTable.tsx';
-import { Tab, Tabs } from '@nextui-org/react';
 import { Link, Tab, Tabs } from '@nextui-org/react';
 import { Toaster } from 'react-hot-toast';
+import Sidenav from './components/Sidenav/Sidenav.tsx';
 
 function App() {
     const [yearAndMonth, setYearAndMonth] = useState<[number, number]>([
@@ -17,16 +15,23 @@ function App() {
     ]);
 
     const { pathname } = useLocation();
+    const [open, setOpen] = useState(false);
 
     return (
         <>
-            <header className="flex justify-between p-4">
-                <FileUploader />
-                <ThemeSwitcher />
+            <header className="flex p-4">
+                <div
+                    className="space-y-1 ml-auto"
+                    onClick={() => setOpen(!open)}
+                >
+                    <span className="block w-6 h-0.5 bg-gray-600"></span>
+                    <span className="block w-6 h-0.5 bg-gray-600"></span>
+                    <span className="block w-6 h-0.5 bg-gray-600"></span>
+                </div>
             </header>
+            <Sidenav open={open} setOpen={setOpen} />
             <Routes>
                 <Route
-                    path="Migreapp/"
                     path="/"
                     index
                     element={
@@ -36,8 +41,6 @@ function App() {
                         />
                     }
                 />
-                <Route path="Migreapp/table" element={<AppTable />} />
-                <Route path="Migreapp/form/:date" element={<CreateForm />} />
                 <Route path="/table" element={<AppTable />} />
                 <Route path="/form/:date" element={<CreateForm />} />
                 <Route path="*" element={<div>Не нашлось</div>} />
@@ -50,18 +53,6 @@ function App() {
                 fullWidth
                 className="fixed bottom-0 left-0 right-0 z-10"
             >
-                <Tab
-                    id="/Migreapp/"
-                    key="/Migreapp/"
-                    href="/Migreapp/"
-                    title="Календарь"
-                />
-                <Tab
-                    id="/Migreapp/table"
-                    key="/Migreapp/table"
-                    href="/Migreapp/table"
-                    title="Таблица"
-                />
                 <Tab as={Link} key="/" href="/" title="Календарь" />
                 <Tab as={Link} key="/table" href="/table" title="Таблица" />
             </Tabs>
