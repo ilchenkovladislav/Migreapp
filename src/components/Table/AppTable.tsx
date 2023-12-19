@@ -14,13 +14,16 @@ import {
     DropdownItem,
     Pagination,
     Spinner,
+    Accordion,
+    AccordionItem,
 } from '@nextui-org/react';
-import { columns } from './data';
+import { columns, filters } from './data';
 import { formatDate } from '../../utils/calendarUtils.ts';
 import { HiChevronDown } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
 import { useAppTable } from './useAppTable.ts';
 import { PainRecord } from '../../types/types.ts';
+import { TableFilter } from '../TableFilter/TableFilter.tsx';
 
 export default function AppTable() {
     const {
@@ -43,6 +46,8 @@ export default function AppTable() {
         headerColumns,
         isLoading,
         handleDeleteSelected,
+        filterValues,
+        onChangeFilter,
     } = useAppTable();
 
     const renderCell = useCallback((record: PainRecord, columnKey: Key) => {
@@ -61,6 +66,24 @@ export default function AppTable() {
     const topContent = useMemo(() => {
         return (
             <div className="flex flex-col gap-4">
+                <Accordion>
+                    <AccordionItem
+                        key="filters"
+                        aria-label="Фильтры"
+                        title="Фильтры"
+                    >
+                        <div className="flex flex-wrap gap-2">
+                            {filters.map((filter) => (
+                                <TableFilter
+                                    filter={filter}
+                                    selectedOptions={filterValues[filter.uid]}
+                                    onChange={onChangeFilter}
+                                />
+                            ))}
+                        </div>
+                    </AccordionItem>
+                </Accordion>
+
                 <div className="flex justify-between sm:gap-3 items-end">
                     <Input
                         isClearable
@@ -123,6 +146,7 @@ export default function AppTable() {
         painRecords.length,
         hasSearchFilter,
         selectedKeys,
+        filterValues,
     ]);
 
     const bottomContent = useMemo(() => {

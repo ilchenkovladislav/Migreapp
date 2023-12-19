@@ -11,4 +11,18 @@ const columns = [
     { name: 'Комментарий', uid: 'comment' },
 ];
 
-export { columns };
+const filters = [
+    { name: 'Боль', uid: 'headache', options: ['Да', 'Нет'] },
+    { name: 'Цикл', uid: 'menstrual', options: ['Да', 'Нет'] },
+    { name: 'Обезбол', uid: 'tookPainMeds', options: ['Да', 'Нет'] },
+    { name: 'Название', uid: 'painMedsName', options: ['Нурофен 400'] },
+    {
+        name: 'Помогло',
+        uid: 'painMedsHelped',
+        options: ['Да', 'Нет', 'Немного'],
+    },
+    // TODO::Переделать для возможности работы с импортами разными + фильтр
+    // { name: 'Импортировано', uid: 'imported', options: ['Да'] },
+];
+
+export { columns, filters };
