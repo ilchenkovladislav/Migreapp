@@ -51,7 +51,7 @@ function App() {
                 radius="none"
                 size="lg"
                 fullWidth
-                className="fixed bottom-0 left-0 right-0 z-10"
+                className="fixed bottom-0 left-0 right-0 z-20"
             >
                 <Tab as={Link} key="/" href="/" title="Календарь" />
                 <Tab as={Link} key="/table" href="/table" title="Таблица" />
