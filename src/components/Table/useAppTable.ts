@@ -32,6 +32,30 @@ export const useAppTable = () => {
     });
 
     const [page, setPage] = useState(1);
+
+    const [filterValues, setFilterValues] = useState<Set<any>>({
+        headache: 'all',
+        menstrual: 'all',
+        tookPainMeds: 'all',
+        painMedsName: 'all',
+        painMedsHelped: 'all',
+        imported: 'all',
+    });
+
+    const onChangeFilter = (obj) => {
+        if (obj.filter.options.length + 1 === obj.keys.size) {
+            setFilterValues((prev) => ({
+                ...prev,
+                [obj.filter.uid]: 'all',
+            }));
+        } else {
+            setFilterValues((prev) => ({
+                ...prev,
+                [obj.filter.uid]: obj.keys,
+            }));
+        }
+    };
+
     const { getAllRecords, deleteRecords, clearRecords } = useIndexedDB();
 
     useEffect(() => {
@@ -55,6 +79,31 @@ export const useAppTable = () => {
     const filteredItems = useMemo(() => {
         let filteredRecords = [...painRecords];
 
+        for (const key in filterValues) {
+            if (filterValues[key] === 'all') {
+                continue;
+            }
+
+            filteredRecords = filteredRecords.filter((record) => {
+                // if (filterValues[key].size === 0) {
+                //     return !(key in record);
+                // }
+
+                let hasNone = false;
+
+                if ([...filterValues[key]].includes('none')) {
+                    hasNone = true;
+                }
+
+                return (
+                    [...filterValues[key]]
+                        .map((el) => el.toLocaleLowerCase())
+                        .includes(record[key]?.toLocaleLowerCase()) ||
+                    (hasNone ? !(key in record) : false)
+                );
+            });
+        }
+
         if (hasSearchFilter) {
             filteredRecords = filteredRecords.filter((record) => {
                 if (record.date) {
@@ -64,7 +113,7 @@ export const useAppTable = () => {
         }
 
         return filteredRecords;
-    }, [painRecords, filterValue]);
+    }, [painRecords, filterValue, filterValues]);
 
     const pages = Math.ceil(filteredItems.length / ROWS_PER_PAGE);
 
@@ -135,5 +184,7 @@ export const useAppTable = () => {
         headerColumns,
         isLoading,
         handleDeleteSelected,
+        filterValues,
+        onChangeFilter,
     };
 };
