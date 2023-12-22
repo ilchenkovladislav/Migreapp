@@ -2,6 +2,8 @@ import {
     createCurrentMonthDays,
     daysOfWeekFull,
     daysOfWeekShort,
+    getCurrentMonth,
+    getCurrentYear,
     getMonthName,
 } from '../../utils/calendarUtils.ts';
 import cn from 'classnames';
@@ -14,15 +16,12 @@ import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
 import { CalendarDay, PainRecord } from '../../types/types.ts';
 import { useAppStore } from '../../store/store.ts';
 
-interface CalendarProps {
-    yearAndMonth: [number, number];
-    onYearAndMonthChange: (yearAndMonth: [number, number]) => void;
-}
+export const Calendar = () => {
+    const [yearAndMonth, setYearAndMonth] = useState<[number, number]>([
+        getCurrentYear(),
+        getCurrentMonth(),
+    ]);
 
-export const Calendar = ({
-    yearAndMonth = [2021, 6],
-    onYearAndMonthChange,
-}: CalendarProps) => {
     const [year, month] = yearAndMonth;
     const { getAllRecords } = useIndexedDB();
 
@@ -49,7 +48,7 @@ export const Calendar = ({
             nextMonth = 12;
             nextYear = year - 1;
         }
-        onYearAndMonthChange([nextYear, nextMonth]);
+        setYearAndMonth([nextYear, nextMonth]);
     };
 
     const handleMonthNavForwardButtonClick = () => {
@@ -59,7 +58,7 @@ export const Calendar = ({
             nextMonth = 1;
             nextYear = year + 1;
         }
-        onYearAndMonthChange([nextYear, nextMonth]);
+        setYearAndMonth([nextYear, nextMonth]);
     };
 
     const handleClick = (day: CalendarDay) => {

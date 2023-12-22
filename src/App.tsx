@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Calendar } from './components/Calendar/Calendar.tsx';
-import { getCurrentMonth, getCurrentYear } from './utils/calendarUtils.ts';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { CreateForm } from './components/CreateForm/CreateForm.tsx';
 import AppTable from './components/Table/AppTable.tsx';
@@ -9,11 +8,6 @@ import { Toaster } from 'react-hot-toast';
 import Sidenav from './components/Sidenav/Sidenav.tsx';
 
 function App() {
-    const [yearAndMonth, setYearAndMonth] = useState<[number, number]>([
-        getCurrentYear(),
-        getCurrentMonth(),
-    ]);
-
     const { pathname } = useLocation();
     const [open, setOpen] = useState(false);
 
@@ -31,16 +25,7 @@ function App() {
             </header>
             <Sidenav open={open} setOpen={setOpen} />
             <Routes>
-                <Route
-                    path="/"
-                    index
-                    element={
-                        <Calendar
-                            yearAndMonth={yearAndMonth}
-                            onYearAndMonthChange={setYearAndMonth}
-                        />
-                    }
-                />
+                <Route path="/" index element={<Calendar />} />
                 <Route path="/table" element={<AppTable />} />
                 <Route path="/form/:date" element={<CreateForm />} />
                 <Route path="*" element={<div>Не нашлось</div>} />
