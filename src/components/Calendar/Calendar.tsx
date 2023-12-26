@@ -1,79 +1,41 @@
 import {
-    createCurrentMonthDays,
     daysOfWeekFull,
     daysOfWeekShort,
-    getCurrentMonth,
-    getCurrentYear,
     getMonthName,
 } from '../../utils/calendarUtils.ts';
 import cn from 'classnames';
 
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
-import { DatePains } from './DatePains/DatePains.tsx';
 import { Button, ButtonGroup } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
-import { useIndexedDB } from '../../hooks/useIndexedDB.ts';
-import { CalendarDay, PainRecord } from '../../types/types.ts';
+import { useCalendar } from './hooks/useCalendar.ts';
+import { CalendarDay } from '../../types/types.ts';
 import { useAppStore } from '../../store/store.ts';
 
-export const Calendar = () => {
-    const [yearAndMonth, setYearAndMonth] = useState<[number, number]>([
-        getCurrentYear(),
-        getCurrentMonth(),
-    ]);
+type CalendarProps = {
+    handleSelectDay: (day: CalendarDay) => void;
+};
 
-    const [year, month] = yearAndMonth;
-    const { getAllRecords } = useIndexedDB();
-
-    const [calendarDays, setCalendarDays] = useState(
-        createCurrentMonthDays(year, month),
-    );
-
-    const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null);
-    const { painRecords, setPainRecords } = useAppStore();
-
-    useEffect(() => {
-        try {
-            setCalendarDays(createCurrentMonthDays(year, month));
-            getAllRecords().then(setPainRecords);
-        } catch (e) {
-            console.error(e);
-        }
-    }, [year, month]);
+export const Calendar = ({ handleSelectDay }: CalendarProps) => {
+    const { painRecords } = useAppStore();
+    const {
+        displayedDate: { month, year },
+        calendarDays,
+        updateDisplayedDate,
+    } = useCalendar();
 
     const handleMonthNavBackButtonClick = () => {
-        let nextYear = year;
-        let nextMonth = month - 1;
-        if (nextMonth === 0) {
-            nextMonth = 12;
-            nextYear = year - 1;
-        }
-        setYearAndMonth([nextYear, nextMonth]);
+        updateDisplayedDate(-1);
     };
 
     const handleMonthNavForwardButtonClick = () => {
-        let nextYear = year;
-        let nextMonth = month + 1;
-        if (nextMonth === 13) {
-            nextMonth = 1;
-            nextYear = year + 1;
-        }
-        setYearAndMonth([nextYear, nextMonth]);
-    };
-
-    const handleClick = (day: CalendarDay) => {
-        setSelectedDay(day);
-    };
-
-    const handleDeleteRecord = (record: PainRecord) => {
-        setPainRecords(painRecords.filter((rec) => rec.id !== record.id));
+        updateDisplayedDate(1);
     };
 
     return (
-        <div className="lg:flex lg:h-full lg:flex-col">
+        <div>
             <header className="flex items-center justify-between border-b border-gray-200 dark:border-gray-900 px-6 py-4 lg:flex-none">
                 <h1 className="text-base font-semibold leading-6">
-                    <time dateTime="2022-01">
+                    <time dateTime={`${year}-${month}`}>
                         {getMonthName(month)} {year}
                     </time>
                 </h1>
@@ -123,7 +85,7 @@ export const Calendar = () => {
                             <button
                                 key={day.date}
                                 type="button"
-                                onClick={() => handleClick(day)}
+                                onClick={() => handleSelectDay(day)}
                                 className={cn(
                                     day.isCurrentMonth
                                         ? 'bg-background'
@@ -191,14 +153,6 @@ export const Calendar = () => {
                     </div>
                 </div>
             </div>
-
-            <DatePains
-                selectedDay={selectedDay || null}
-                handleDeleteRecord={handleDeleteRecord}
-                painRecords={painRecords.filter(
-                    (record) => record.date === selectedDay?.date,
-                )}
-            />
         </div>
     );
 };

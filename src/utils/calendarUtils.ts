@@ -2,7 +2,9 @@ import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import { CalendarDay } from '../types/types.ts';
+import { CalendarDay, PainRecord } from '../types/types.ts';
+import { IndicatorColor } from '../components/Indicator/Indicator.tsx';
+import { HeadacheVariants } from '../components/CreateForm/types/radioOptions.ts';
 
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
@@ -138,4 +140,17 @@ export function formatDate(dateString: string) {
 
 export function getWeekday(dateString: string) {
     return dayjs(dateString).weekday();
+}
+
+export function getIndicatorColor(record: PainRecord): IndicatorColor {
+    switch (record.headache) {
+        case HeadacheVariants.Yes:
+            return 'red';
+
+        case HeadacheVariants.No:
+            return 'green';
+
+        default:
+            return 'gray';
+    }
 }

@@ -25,7 +25,7 @@ import { useAppTable } from './useAppTable.ts';
 import { PainRecord } from '../../types/types.ts';
 import { TableFilter } from '../TableFilter/TableFilter.tsx';
 
-export default function AppTable() {
+export function AppTable() {
     const {
         page,
         pages,

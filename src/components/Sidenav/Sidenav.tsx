@@ -12,7 +12,7 @@ type SidenavProps = {
     setOpen: (open: boolean) => void;
 };
 
-export default function Sidenav({ open, setOpen }: SidenavProps) {
+export function Sidenav({ open, setOpen }: SidenavProps) {
     const { painRecords } = useAppStore();
     const { exportFile } = useXlsx();
 

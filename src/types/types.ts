@@ -1,6 +1,6 @@
 export interface PainRecord {
-    id?: number;
-    date?: string;
+    id: number;
+    date: string;
     headache: string;
     menstrual: string;
     tookPainMeds: string;

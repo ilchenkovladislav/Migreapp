@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Calendar } from './components/Calendar/Calendar.tsx';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { CreateForm } from './components/CreateForm/CreateForm.tsx';
-import AppTable from './components/Table/AppTable.tsx';
 import { Link, Tab, Tabs } from '@nextui-org/react';
 import { Toaster } from 'react-hot-toast';
-import Sidenav from './components/Sidenav/Sidenav.tsx';
+import { CreateForm } from './components/CreateForm/CreateForm.tsx';
+import { AppTable } from './components/Table/AppTable.tsx';
+import { Sidenav } from './components/Sidenav/Sidenav.tsx';
+import { CalendarPage } from './pages/CalendarPage/CalendarPage.tsx';
 
 function App() {
     const { pathname } = useLocation();
@@ -25,7 +25,7 @@ function App() {
             </header>
             <Sidenav open={open} setOpen={setOpen} />
             <Routes>
-                <Route path="/" index element={<Calendar />} />
+                <Route path="/" index element={<CalendarPage />} />
                 <Route path="/table" element={<AppTable />} />
                 <Route path="/form/:date" element={<CreateForm />} />
                 <Route path="*" element={<div>Не нашлось</div>} />
