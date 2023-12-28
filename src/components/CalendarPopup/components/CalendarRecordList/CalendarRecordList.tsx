@@ -1,17 +1,18 @@
 import { Accordion, AccordionItem } from '@nextui-org/react';
+
+import { useIndexedDB } from '../../../../hooks/useIndexedDB.ts';
+import { useAppStore } from '../../../../store/store.ts';
+import { Day, PainRecord } from '../../../../types/types.ts';
 import {
     formatDate,
     getIndicatorColor,
 } from '../../../../utils/calendarUtils.ts';
 import { Indicator } from '../../../Indicator/Indicator.tsx';
-import { CalendarRecord } from '../CalendarRecord/CalendarRecord.tsx';
-import { CalendarDay, PainRecord } from '../../../../types/types.ts';
-import { useIndexedDB } from '../../../../hooks/useIndexedDB.ts';
-import { useAppStore } from '../../../../store/store.ts';
 import { useAccordion } from '../../hooks/useAccordion.ts';
+import { CalendarRecord } from '../CalendarRecord/CalendarRecord.tsx';
 
 type CalendarRecordListProps = {
-    selectedDay: CalendarDay;
+    selectedDay: Day;
     recordsSelectedDay: PainRecord[];
 };
 

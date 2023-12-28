@@ -1,11 +1,12 @@
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-import { CalendarDay } from '../../types/types.ts';
-import { CalendarRecordList } from './components/CalendarRecordList/CalendarRecordList.tsx';
+
 import { useAppStore } from '../../store/store.ts';
+import { Day } from '../../types/types.ts';
+import { CalendarRecordList } from './components/CalendarRecordList/CalendarRecordList.tsx';
 
 interface DatePainsProps {
-    selectedDay: CalendarDay;
+    selectedDay: Day;
 }
 
 export const CalendarPopup = ({ selectedDay }: DatePainsProps) => {

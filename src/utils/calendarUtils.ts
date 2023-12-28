@@ -2,9 +2,10 @@ import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import { CalendarDay, PainRecord } from '../types/types.ts';
-import { IndicatorColor } from '../components/Indicator/Indicator.tsx';
+
 import { HeadacheVariants } from '../components/CreateForm/types/radioOptions.ts';
+import { IndicatorColor } from '../components/Indicator/Indicator.tsx';
+import { Day, PainRecord } from '../types/types.ts';
 
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
@@ -45,17 +46,14 @@ export function getNumberOfDaysInMonth(year: number, month: number) {
     return dayjs(`${year}-${month}-01`).daysInMonth();
 }
 
-export function createDaysForCurrentMonth(
-    year: number,
-    month: number,
-): CalendarDay[] {
-    const res: CalendarDay[] = [];
-    for (let i = 0; i < getNumberOfDaysInMonth(year, month); i++) {
-        const currentDate = dayjs(`${year}-${month}-${i + 1}`);
+export function createDaysForCurrentMonth(year: number, month: number): Day[] {
+    const res: Day[] = [];
+    for (let index = 0; index < getNumberOfDaysInMonth(year, month); index++) {
+        const currentDate = dayjs(`${year}-${month}-${index + 1}`);
 
         res.push({
             date: currentDate.format('YYYY-MM-DD'),
-            dayOfMonth: i + 1,
+            dayOfMonth: index + 1,
             isCurrentMonth: true,
             isToday: isToday(currentDate),
         });
@@ -67,8 +65,8 @@ export function createDaysForCurrentMonth(
 export function createDaysForPreviousMonth(
     year: number,
     month: number,
-    currentMonthDays: CalendarDay[],
-): CalendarDay[] {
+    currentMonthDays: Day[],
+): Day[] {
     const firstDayOfTheMonthWeekday = getWeekday(currentMonthDays[0].date);
     const previousMonth = dayjs(`${year}-${month}-01`).subtract(1, 'month');
 
@@ -78,16 +76,16 @@ export function createDaysForPreviousMonth(
         .subtract(visibleNumberOfDaysFromPreviousMonth, 'day')
         .date();
 
-    const res: CalendarDay[] = [];
+    const res: Day[] = [];
 
-    for (let i = 0; i < visibleNumberOfDaysFromPreviousMonth; i++) {
+    for (let index = 0; index < visibleNumberOfDaysFromPreviousMonth; index++) {
         res.push({
             date: dayjs(
                 `${previousMonth.year()}-${previousMonth.month() + 1}-${
-                    previousMonthLastMondayDayOfMonth + i
+                    previousMonthLastMondayDayOfMonth + index
                 }`,
             ).format('YYYY-MM-DD'),
-            dayOfMonth: previousMonthLastMondayDayOfMonth + i,
+            dayOfMonth: previousMonthLastMondayDayOfMonth + index,
             isCurrentMonth: false,
         });
     }
@@ -98,22 +96,22 @@ export function createDaysForPreviousMonth(
 export function createDaysForNextMonth(
     year: number,
     month: number,
-    currentMonthDays: CalendarDay[],
-): CalendarDay[] {
+    currentMonthDays: Day[],
+): Day[] {
     const lastDayOfTheMonthWeekday = getWeekday(
         `${year}-${month}-${currentMonthDays.length}`,
     );
     const nextMonth = dayjs(`${year}-${month}-01`).add(1, 'month');
     const visibleNumberOfDaysFromNextMonth = 6 - lastDayOfTheMonthWeekday;
 
-    const res: CalendarDay[] = [];
+    const res: Day[] = [];
 
-    for (let i = 0; i < visibleNumberOfDaysFromNextMonth; i++) {
+    for (let index = 0; index < visibleNumberOfDaysFromNextMonth; index++) {
         res.push({
             date: dayjs(
-                `${nextMonth.year()}-${nextMonth.month() + 1}-${i + 1}`,
+                `${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`,
             ).format('YYYY-MM-DD'),
-            dayOfMonth: i + 1,
+            dayOfMonth: index + 1,
             isCurrentMonth: false,
             isNextMonth: true,
         });
@@ -144,13 +142,14 @@ export function getWeekday(dateString: string) {
 
 export function getIndicatorColor(record: PainRecord): IndicatorColor {
     switch (record.headache) {
-        case HeadacheVariants.Yes:
+        case HeadacheVariants.Yes: {
             return 'red';
-
-        case HeadacheVariants.No:
+        }
+        case HeadacheVariants.No: {
             return 'green';
-
-        default:
+        }
+        default: {
             return 'gray';
+        }
     }
 }

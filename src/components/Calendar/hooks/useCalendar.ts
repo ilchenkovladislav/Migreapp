@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
+
+import { useIndexedDB } from '../../../hooks/useIndexedDB.ts';
+import { useAppStore } from '../../../store/store.ts';
 import {
     createCurrentMonthDays,
     getCurrentMonth,
     getCurrentYear,
 } from '../../../utils/calendarUtils.ts';
-import { useIndexedDB } from '../../../hooks/useIndexedDB.ts';
-import { useAppStore } from '../../../store/store.ts';
 
-type DisplayedDate = {
+export type DisplayedDate = {
     month: number;
     year: number;
 };
@@ -30,7 +31,7 @@ export const useCalendar = () => {
     useEffect(() => {
         try {
             setCalendarDays(createCurrentMonthDays(year, month));
-            getAllRecords().then(setPainRecords);
+            getAllRecords().then(setPainRecords).catch(console.error);
         } catch (e) {
             console.error(e);
         }

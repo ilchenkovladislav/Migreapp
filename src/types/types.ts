@@ -10,7 +10,7 @@ export interface PainRecord {
     comment?: string;
 }
 
-export interface CalendarDay {
+export interface Day {
     date: string;
     dayOfMonth: number;
     isPreviousMonth?: boolean;

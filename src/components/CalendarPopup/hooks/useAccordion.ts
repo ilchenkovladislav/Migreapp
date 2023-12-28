@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
 import { Key } from '@react-types/shared';
-import { CalendarDay } from '../../../types/types.ts';
+import { useEffect, useState } from 'react';
 
-export const useAccordion = (selectedDay: CalendarDay) => {
+import { Day } from '../../../types/types.ts';
+
+export const useAccordion = (selectedDay: Day) => {
     const [selectedKeys, setSelectedKeys] = useState<'all' | Set<Key>>(
         new Set([]),
     );
