@@ -108,7 +108,7 @@ export const useAppTable = () => {
                                 return element.toLocaleLowerCase();
                             }
                         })
-                        .includes(record[key].toLocaleLowerCase()) ||
+                        .includes(record[key]?.toLocaleLowerCase()) ||
                     (hasNone ? !(key in record) : false)
                 );
             });
