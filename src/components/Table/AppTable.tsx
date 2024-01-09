@@ -70,7 +70,7 @@ export function AppTable() {
     const topContent = useMemo(() => {
         return (
             <div className="flex flex-col gap-4">
-                <Accordion>
+                <Accordion variant="bordered">
                     <AccordionItem
                         key="filters"
                         aria-label="Фильтры"
