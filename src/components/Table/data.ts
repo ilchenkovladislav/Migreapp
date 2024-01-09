@@ -11,7 +11,13 @@ const columns = [
     { name: 'Комментарий', uid: 'comment' },
 ];
 
-const filters = [
+export type Filter = {
+    name: string;
+    uid: string;
+    options: string[];
+};
+
+const filters: Filter[] = [
     { name: 'Боль', uid: 'headache', options: ['Да', 'Нет'] },
     { name: 'Цикл', uid: 'menstrual', options: ['Да', 'Нет'] },
     { name: 'Обезбол', uid: 'tookPainMeds', options: ['Да', 'Нет'] },

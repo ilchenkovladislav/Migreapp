@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
 import { Link, Tab, Tabs } from '@nextui-org/react';
+import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { Route, Routes, useLocation } from 'react-router-dom';
+
 import { CreateForm } from './components/CreateForm/CreateForm.tsx';
-import { AppTable } from './components/Table/AppTable.tsx';
 import { Sidenav } from './components/Sidenav/Sidenav.tsx';
+import { AppTable } from './components/Table/AppTable.tsx';
 import { CalendarPage } from './pages/CalendarPage/CalendarPage.tsx';
 
 function App() {

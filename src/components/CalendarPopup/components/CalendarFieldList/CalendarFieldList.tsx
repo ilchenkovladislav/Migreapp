@@ -1,6 +1,6 @@
+import { PainRecord } from '../../../../types/types.ts';
 import { painRecordFields } from '../CalendarRecord/model/constants.ts';
 import { CalendarRecordField } from '../CalendarRecordField/CalendarRecordField.tsx';
-import { PainRecord } from '../../../../types/types.ts';
 
 type CalendarFieldListProps = {
     record: PainRecord;

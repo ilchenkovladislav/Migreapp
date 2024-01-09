@@ -35,6 +35,19 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': "off",
     "react/react-in-jsx-scope": ["off"],
     "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
+    "simple-import-sort/exports": "error",
+    "unicorn/filename-case": "off",
+    "unicorn/consistent-function-scoping": "warn",
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "allowList": {
+          "Props": true,
+          "props": true,
+          "env": true
+        }
+      }
+    ],
+    "unicorn/no-null": "off"
   },
 }

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { HeadacheStore } from './types.ts';
+
 import { PainRecord } from '../../../types/types.ts';
+import { HeadacheStore } from './types.ts';
 
 export const initialState: PainRecord = {
     headache: '',
@@ -13,7 +14,7 @@ export const clearState: PainRecord = {
     headache: '',
     tookPainMeds: '',
     menstrual: '',
-    painMedsName: null,
+    painMedsName: '',
     painMedsQuantity: '1',
     painMedsHelped: '',
     comment: '',

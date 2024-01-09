@@ -1,13 +1,21 @@
+import {
+    HeadacheVariants,
+    MenstrualVariants,
+    PainMedsHelpedVariants,
+    TookPainMedsVariants,
+} from '../components/CreateForm/types/radioOptions.ts';
+
 export interface PainRecord {
     id: number;
     date: string;
-    headache: string;
-    menstrual: string;
-    tookPainMeds: string;
+    headache: HeadacheVariants;
+    menstrual: MenstrualVariants;
+    tookPainMeds: TookPainMedsVariants;
     painMedsName?: string | number | null;
     painMedsQuantity?: string | number;
-    painMedsHelped?: string;
+    painMedsHelped?: PainMedsHelpedVariants;
     comment?: string;
+    imported?: string;
 }
 
 export interface Day {

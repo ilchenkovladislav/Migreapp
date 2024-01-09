@@ -6,16 +6,19 @@ import {
     DropdownTrigger,
 } from '@nextui-org/react';
 
+import { Filter } from '../Table/data.ts';
+import { FilterOption } from '../Table/useAppTable.ts';
+
 type TableFilterProps = {
-    filter: any;
-    selectedOptions: any;
-    onChange: (obj: any) => void;
+    filter: Filter;
+    selectedOptions: 'all' | Set<number | string> | undefined;
+    onChange: (object: FilterOption) => void;
 };
 
 export const TableFilter = (props: TableFilterProps) => {
     const { filter, selectedOptions, onChange } = props;
 
-    const onOptionChange = (keys) => {
+    const onOptionChange = (keys: 'all' | Set<number | string> | undefined) => {
         onChange({ keys, filter });
     };
 
@@ -37,7 +40,7 @@ export const TableFilter = (props: TableFilterProps) => {
                 {filter.options.map((option) => {
                     return <DropdownItem key={option}>{option}</DropdownItem>;
                 })}
-                <DropdownItem key="none">—</DropdownItem>;
+                <DropdownItem key="none">—</DropdownItem>
             </DropdownMenu>
         </Dropdown>
     );

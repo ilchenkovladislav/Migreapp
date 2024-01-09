@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+
 import {
     createDaysForCurrentMonth,
     createDaysForNextMonth,
@@ -85,7 +86,7 @@ describe('formatDate', () => {
 });
 
 describe('createDaysForMonth', () => {
-    const daysPrevMonth = [
+    const daysPreviousMonth = [
         {
             date: '2023-10-30',
             dayOfMonth: 30,
@@ -304,7 +305,7 @@ describe('createDaysForMonth', () => {
 
     test('prev 2023 11', () => {
         expect(createDaysForPreviousMonth(2023, 11, daysCurrentMonth)).toEqual(
-            daysPrevMonth,
+            daysPreviousMonth,
         );
     });
 

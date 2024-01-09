@@ -1,29 +1,30 @@
-import { useMemo, useCallback, Key } from 'react';
 import {
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell,
-    Input,
-    Button,
-    DropdownTrigger,
-    Dropdown,
-    DropdownMenu,
-    DropdownItem,
-    Pagination,
-    Spinner,
     Accordion,
     AccordionItem,
+    Button,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
+    Input,
+    Pagination,
+    Spinner,
+    Table,
+    TableBody,
+    TableCell,
+    TableColumn,
+    TableHeader,
+    TableRow,
 } from '@nextui-org/react';
-import { columns, filters } from './data';
-import { formatDate } from '../../utils/calendarUtils.ts';
-import { HiChevronDown } from 'react-icons/hi';
+import { Key, useCallback, useMemo } from 'react';
 import { BiSearch } from 'react-icons/bi';
-import { useAppTable } from './useAppTable.ts';
+import { HiChevronDown } from 'react-icons/hi';
+
 import { PainRecord } from '../../types/types.ts';
+import { formatDate } from '../../utils/calendarUtils.ts';
 import { TableFilter } from '../TableFilter/TableFilter.tsx';
+import { columns, filters } from './data';
+import { useAppTable } from './useAppTable.ts';
 
 export function AppTable() {
     const {
@@ -54,12 +55,15 @@ export function AppTable() {
         const cellValue = record[columnKey as keyof PainRecord];
 
         switch (columnKey) {
-            case 'date':
+            case 'date': {
                 return <div>{formatDate(cellValue as string)}</div>;
-            case 'imported':
+            }
+            case 'imported': {
                 return <div>{cellValue ? 'Да' : null}</div>;
-            default:
+            }
+            default: {
                 return cellValue;
+            }
         }
     }, []);
 
@@ -78,6 +82,7 @@ export function AppTable() {
                                     filter={filter}
                                     selectedOptions={filterValues[filter.uid]}
                                     onChange={onChangeFilter}
+                                    key={filter.uid}
                                 />
                             ))}
                         </div>

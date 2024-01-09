@@ -1,6 +1,13 @@
 import { cn, Radio } from '@nextui-org/react';
+import { ReactNode } from 'react';
 
-export const CustomRadio = (props: any) => {
+type CustomRadioProps = {
+    children: ReactNode;
+    value: string;
+    key: string;
+};
+
+export const CustomRadio = (props: CustomRadioProps) => {
     const { children, ...otherProps } = props;
 
     return (

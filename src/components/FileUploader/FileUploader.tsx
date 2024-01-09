@@ -1,4 +1,5 @@
 import { Button } from '@nextui-org/react';
+
 import { useFileUploader } from './useFileUploader/useFileUploader.ts';
 
 export const FileUploader = () => {
@@ -15,7 +16,7 @@ export const FileUploader = () => {
                     id="uploader"
                     className="hidden"
                     accept=".xlsx"
-                    onChange={readUploadFile}
+                    onChange={void readUploadFile}
                 />
             </label>
         </form>

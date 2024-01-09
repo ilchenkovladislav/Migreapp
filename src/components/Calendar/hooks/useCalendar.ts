@@ -32,8 +32,8 @@ export const useCalendar = () => {
         try {
             setCalendarDays(createCurrentMonthDays(year, month));
             getAllRecords().then(setPainRecords).catch(console.error);
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
     }, [year, month]);
 

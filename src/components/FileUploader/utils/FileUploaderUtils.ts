@@ -1,8 +1,8 @@
+import { PainRecord } from '../../../types/types.ts';
 import {
     PainMedsHelpedVariants,
     TookPainMedsVariants,
 } from '../../CreateForm/types/radioOptions.ts';
-import { PainRecord } from '../../../types/types.ts';
 import { Xlsx } from '../types/FileUploaderTypes.ts';
 
 const transformPainMedsHelped = (painMedsHelped: string) => {
@@ -27,7 +27,7 @@ export const transformJsonToPainRecords = (json: Xlsx[]) => {
     return json.map((day) => {
         const dayData: Partial<PainRecord> = {};
 
-        Object.entries(day).forEach(([key, value]) => {
+        for (const [key, value] of Object.entries(day)) {
             switch (key) {
                 case 'Дата': {
                     dayData.date = value;
@@ -45,10 +45,10 @@ export const transformJsonToPainRecords = (json: Xlsx[]) => {
                     dayData.tookPainMeds = TookPainMedsVariants.Yes;
                     dayData.painMedsQuantity = 1;
 
-                    const arr = value.split(',');
+                    const array = value.split(',');
 
-                    if (arr.length > 1) {
-                        const [medicine, painMedsHelped] = arr;
+                    if (array.length > 1) {
+                        const [medicine, painMedsHelped] = array;
                         dayData.painMedsName = medicine.trim();
                         dayData.painMedsHelped =
                             transformPainMedsHelped(painMedsHelped);
@@ -67,7 +67,7 @@ export const transformJsonToPainRecords = (json: Xlsx[]) => {
                     dayData.comment += `${key}: ${value}; `;
                 }
             }
-        });
+        }
 
         return dayData;
     });

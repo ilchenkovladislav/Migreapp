@@ -14,7 +14,7 @@ export const CalendarDay = ({ day, handleSelectDay }: CalendarDayProps) => {
     const painRecords = useAppStore((state) => state.painRecords);
     const indicatorColors = painRecords
         .filter((record) => record.date === day.date)
-        .map(getIndicatorColor);
+        .map((record) => getIndicatorColor(record));
 
     return (
         <button
@@ -47,7 +47,7 @@ export const CalendarDay = ({ day, handleSelectDay }: CalendarDayProps) => {
             >
                 {day.dayOfMonth}
             </time>
-            {!!painRecords.length && (
+            {painRecords.length > 0 && (
                 <IndicatorList indicatorColors={indicatorColors} />
             )}
         </button>

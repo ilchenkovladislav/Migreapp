@@ -22,10 +22,10 @@ export const CalendarRecordList = (props: CalendarRecordListProps) => {
     const { painRecords, setPainRecords } = useAppStore();
     const { selectedKeys, setSelectedKeys } = useAccordion(selectedDay);
 
-    const handleDeleteRecord = (record: PainRecord) => {
-        deleteRecord(record.id);
+    function handleDeleteRecord(record: PainRecord) {
         setPainRecords(painRecords.filter((rec) => rec.id !== record.id));
-    };
+        void deleteRecord(record.id);
+    }
 
     return (
         <Accordion

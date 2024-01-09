@@ -12,6 +12,8 @@ dayjs.extend(weekOfYear);
 
 dayjs.locale(ru);
 
+const templateDate = 'YYYY-MM-DD';
+
 export const daysOfWeekFull = [
     'Понедельник',
     'Вторник',
@@ -47,19 +49,19 @@ export function getNumberOfDaysInMonth(year: number, month: number) {
 }
 
 export function createDaysForCurrentMonth(year: number, month: number): Day[] {
-    const res: Day[] = [];
+    const result: Day[] = [];
     for (let index = 0; index < getNumberOfDaysInMonth(year, month); index++) {
         const currentDate = dayjs(`${year}-${month}-${index + 1}`);
 
-        res.push({
-            date: currentDate.format('YYYY-MM-DD'),
+        result.push({
+            date: currentDate.format(templateDate),
             dayOfMonth: index + 1,
             isCurrentMonth: true,
             isToday: isToday(currentDate),
         });
     }
 
-    return res;
+    return result;
 }
 
 export function createDaysForPreviousMonth(
@@ -76,21 +78,21 @@ export function createDaysForPreviousMonth(
         .subtract(visibleNumberOfDaysFromPreviousMonth, 'day')
         .date();
 
-    const res: Day[] = [];
+    const result: Day[] = [];
 
     for (let index = 0; index < visibleNumberOfDaysFromPreviousMonth; index++) {
-        res.push({
+        result.push({
             date: dayjs(
                 `${previousMonth.year()}-${previousMonth.month() + 1}-${
                     previousMonthLastMondayDayOfMonth + index
                 }`,
-            ).format('YYYY-MM-DD'),
+            ).format(templateDate),
             dayOfMonth: previousMonthLastMondayDayOfMonth + index,
             isCurrentMonth: false,
         });
     }
 
-    return res;
+    return result;
 }
 
 export function createDaysForNextMonth(
@@ -104,20 +106,20 @@ export function createDaysForNextMonth(
     const nextMonth = dayjs(`${year}-${month}-01`).add(1, 'month');
     const visibleNumberOfDaysFromNextMonth = 6 - lastDayOfTheMonthWeekday;
 
-    const res: Day[] = [];
+    const result: Day[] = [];
 
     for (let index = 0; index < visibleNumberOfDaysFromNextMonth; index++) {
-        res.push({
+        result.push({
             date: dayjs(
                 `${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`,
-            ).format('YYYY-MM-DD'),
+            ).format(templateDate),
             dayOfMonth: index + 1,
             isCurrentMonth: false,
             isNextMonth: true,
         });
     }
 
-    return res;
+    return result;
 }
 
 export function createCurrentMonthDays(year: number, month: number) {

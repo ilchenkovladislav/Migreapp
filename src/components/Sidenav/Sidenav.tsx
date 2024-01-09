@@ -1,11 +1,12 @@
-import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { RxCross2 } from 'react-icons/rx';
-import { FileUploader } from '../FileUploader/FileUploader.tsx';
 import { Button } from '@nextui-org/react';
-import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher.tsx';
-import { useAppStore } from '../../store/store.ts';
+import { Fragment } from 'react';
+import { RxCross2 } from 'react-icons/rx';
+
 import { useXlsx } from '../../hooks/useXlsx.ts';
+import { useAppStore } from '../../store/store.ts';
+import { FileUploader } from '../FileUploader/FileUploader.tsx';
+import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher.tsx';
 
 type SidenavProps = {
     open: boolean;

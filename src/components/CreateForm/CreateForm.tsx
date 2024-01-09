@@ -1,23 +1,24 @@
 import {
-    Button,
-    RadioGroup,
     Autocomplete,
     AutocompleteItem,
+    Button,
     Input,
+    RadioGroup,
     Textarea,
 } from '@nextui-org/react';
-import { CustomRadio } from './CustomRadio/CustomRadio.tsx';
-import { useHeadacheStore } from './store/store.ts';
+
 import { AnimateBlock } from './AnimateBlock.tsx';
+import { CustomRadio } from './CustomRadio/CustomRadio.tsx';
+import { useCreateForm } from './hooks/useCreateForm.ts';
+import { useHeadacheStore } from './store/store.ts';
 import {
     HeadacheVariants,
+    medicineOption,
     MenstrualVariants,
     PainMedsHelpedVariants,
     TookPainMedsVariants,
     Variants,
-    medicineOption,
 } from './types/radioOptions.ts';
-import { useCreateForm } from './hooks/useCreateForm.ts';
 
 const medicineOptions: medicineOption[] = [
     { value: 'Нурофен 400', label: 'Нурофен 400' },
@@ -26,6 +27,14 @@ const medicineOptions: medicineOption[] = [
     { value: 'Амигренин', label: 'Амигренин' },
     { value: 'Золмитриптан', label: 'Золмитриптан' },
 ];
+
+const renderRadioOptions = (variants: Variants) => {
+    return Object.values(variants).map((value) => (
+        <CustomRadio key={value} value={value}>
+            {value}
+        </CustomRadio>
+    ));
+};
 
 export const CreateForm = () => {
     const {
@@ -50,14 +59,6 @@ export const CreateForm = () => {
     } = painRecord;
 
     const { handleSubmit } = useCreateForm();
-
-    const renderRadioOptions = (variants: Variants) => {
-        return Object.values(variants).map((value) => (
-            <CustomRadio key={value} value={value}>
-                {value}
-            </CustomRadio>
-        ));
-    };
 
     return (
         <form

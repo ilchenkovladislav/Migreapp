@@ -1,7 +1,8 @@
-import { clearState, useHeadacheStore } from '../store/store.ts';
 import { FormEvent } from 'react';
-import { useIndexedDB } from '../../../hooks/useIndexedDB.ts';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import { useIndexedDB } from '../../../hooks/useIndexedDB.ts';
+import { clearState, useHeadacheStore } from '../store/store.ts';
 
 export const useCreateForm = () => {
     const { painRecord, setPainRecord } = useHeadacheStore();
@@ -14,10 +15,10 @@ export const useCreateForm = () => {
         setPainRecord(clearState);
     };
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-        addPainRecord({ ...painRecord, date });
+        void addPainRecord({ ...painRecord, date });
         clearForm();
 
         navigate('/');

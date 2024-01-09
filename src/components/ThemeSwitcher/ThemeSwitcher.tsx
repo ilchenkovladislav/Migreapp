@@ -1,6 +1,6 @@
-import { useTheme } from 'next-themes';
 import { Switch } from '@nextui-org/react';
-import { BsSunFill, BsMoonFill } from 'react-icons/bs';
+import { useTheme } from 'next-themes';
+import { BsMoonFill,BsSunFill } from 'react-icons/bs';
 
 type ThemeSwitcherProps = {
     className?: string;

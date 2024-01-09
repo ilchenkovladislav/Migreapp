@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { AppStore } from './types.ts';
+
 import { PainRecord } from '../types/types.ts';
+import { AppStore } from './types.ts';
 
 const initialState: PainRecord[] = [];
 
