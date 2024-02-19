@@ -31,7 +31,7 @@ export const CalendarRecordList = (props: CalendarRecordListProps) => {
         <Accordion
             selectedKeys={selectedKeys}
             onSelectionChange={setSelectedKeys}
-            variant="shadow"
+            className="border-1 rounded-md px-4"
         >
             {recordsSelectedDay.map((record) => {
                 return (

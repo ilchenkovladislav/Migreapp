@@ -1,3 +1,5 @@
+import { Button } from '@nextui-org/react';
+
 import { PainRecord } from '../../../../types/types.ts';
 import { CalendarFieldList } from '../CalendarFieldList/CalendarFieldList.tsx';
 
@@ -12,12 +14,13 @@ export const CalendarRecord = (props: CalendarRecordProps) => {
     return (
         <>
             <CalendarFieldList record={record} />
-            <button
+            <Button
                 onClick={() => handleDeleteRecord(record)}
-                className="ml-auto mt-5 flex-none self-center rounded-md bg-background px-3 py-2 font-semibold text-foreground shadow-sm"
+                variant="light"
+                className="ml-auto flex px-0 text-red-500 font-semibold justify-end"
             >
-                Удалить
-            </button>
+                удалить
+            </Button>
         </>
     );
 };

@@ -12,9 +12,9 @@ export const CalendarPage = () => {
     };
 
     return (
-        <>
+        <div className="pt-48">
             <Calendar handleSelectDay={handleSelectDay} />
             {!!selectedDay && <CalendarPopup selectedDay={selectedDay} />}
-        </>
+        </div>
     );
 };

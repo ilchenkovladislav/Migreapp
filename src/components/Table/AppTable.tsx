@@ -69,8 +69,19 @@ export function AppTable() {
 
     const topContent = useMemo(() => {
         return (
-            <div className="flex flex-col gap-4">
-                <Accordion variant="bordered">
+            <div className="flex flex-col">
+                <div className="flex justify-between sm:gap-3 items-end">
+                    <Input
+                        isClearable
+                        className="w-full sm:max-w-[44%]"
+                        placeholder="Поиск по дате..."
+                        startContent={<BiSearch />}
+                        value={filterValue}
+                        onClear={() => onClear()}
+                        onValueChange={onSearchChange}
+                    />
+                </div>
+                <Accordion>
                     <AccordionItem
                         key="filters"
                         aria-label="Фильтры"
@@ -88,18 +99,6 @@ export function AppTable() {
                         </div>
                     </AccordionItem>
                 </Accordion>
-
-                <div className="flex justify-between sm:gap-3 items-end">
-                    <Input
-                        isClearable
-                        className="w-full sm:max-w-[44%]"
-                        placeholder="Поиск по дате..."
-                        startContent={<BiSearch />}
-                        value={filterValue}
-                        onClear={() => onClear()}
-                        onValueChange={onSearchChange}
-                    />
-                </div>
                 <div className="flex justify-between items-center">
                     <span className="text-default-400 text-small">
                         Всего записей: {painRecords.length}
@@ -167,7 +166,6 @@ export function AppTable() {
                         <Pagination
                             isCompact
                             showControls
-                            showShadow
                             color="primary"
                             page={page}
                             total={pages}
@@ -185,9 +183,10 @@ export function AppTable() {
             bottomContent={bottomContent}
             bottomContentPlacement="outside"
             classNames={{
-                wrapper: 'max-h-[500px]',
-                base: 'px-4 mb-20',
+                wrapper: 'max-h-[500px] border-1',
+                base: 'px-4 mb-20 pt-5',
             }}
+            shadow="none"
             selectedKeys={selectedKeys}
             selectionMode="multiple"
             sortDescriptor={sortDescriptor}

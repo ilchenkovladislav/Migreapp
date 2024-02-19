@@ -25,13 +25,12 @@ export const TableFilter = (props: TableFilterProps) => {
     return (
         <Dropdown>
             <DropdownTrigger>
-                <Button variant="bordered" className="capitalize">
+                <Button variant="light" className="border-1">
                     {filter.name}
                 </Button>
             </DropdownTrigger>
             <DropdownMenu
                 aria-label="Multiple selection example"
-                variant="flat"
                 closeOnSelect={false}
                 selectionMode="multiple"
                 selectedKeys={selectedOptions}

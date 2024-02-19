@@ -1,6 +1,8 @@
 import { Link, Tab, Tabs } from '@nextui-org/react';
 import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { CiViewTable } from 'react-icons/ci';
+import { IoCalendarNumberOutline } from 'react-icons/io5';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { CreateForm } from './components/CreateForm/CreateForm.tsx';
@@ -14,16 +16,6 @@ function App() {
 
     return (
         <>
-            <header className="flex p-4">
-                <div
-                    className="space-y-1 ml-auto"
-                    onClick={() => setOpen(!open)}
-                >
-                    <span className="block w-6 h-0.5 bg-gray-600"></span>
-                    <span className="block w-6 h-0.5 bg-gray-600"></span>
-                    <span className="block w-6 h-0.5 bg-gray-600"></span>
-                </div>
-            </header>
             <Sidenav open={open} setOpen={setOpen} />
             <Routes>
                 <Route path="/" index element={<CalendarPage />} />
@@ -34,13 +26,33 @@ function App() {
             <Tabs
                 selectedKey={pathname}
                 aria-label="Tabs"
-                radius="none"
-                size="lg"
+                variant="light"
                 fullWidth
-                className="fixed bottom-0 left-0 right-0 z-20"
+                classNames={{ cursor: 'shadow-none' }}
+                className="fixed bottom-0 left-0 right-0 z-20 bg-background"
             >
-                <Tab as={Link} key="/" href="/" title="Календарь" />
-                <Tab as={Link} key="/table" href="/table" title="Таблица" />
+                <Tab
+                    as={Link}
+                    key="/"
+                    href="/"
+                    title={<IoCalendarNumberOutline className="w-5 h-5" />}
+                />
+                <Tab
+                    as={Link}
+                    key="/table"
+                    href="/table"
+                    title={<CiViewTable className="w-5 h-5" />}
+                />
+                <Tab>
+                    <div
+                        className="space-y-[3px] ml-auto"
+                        onClick={() => setOpen(!open)}
+                    >
+                        <span className="block w-5 h-0.5 bg-gray-500 rounded"></span>
+                        <span className="block w-5 h-0.5 bg-gray-500 rounded"></span>
+                        <span className="block w-5 h-0.5 bg-gray-500 rounded"></span>
+                    </div>
+                </Tab>
             </Tabs>
             <Toaster
                 toastOptions={{

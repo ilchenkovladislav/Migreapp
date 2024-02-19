@@ -23,20 +23,20 @@ export const CalendarPopup = ({ selectedDay }: DatePainsProps) => {
 
     return (
         <>
-            <div className="px-4 py-10 sm:px-6">
+            <div className="px-4 py-5 pb-20 sm:px-6">
                 <CalendarRecordList
                     selectedDay={selectedDay}
                     recordsSelectedDay={recordsSelectedDay}
                 />
                 <Button
                     color="primary"
-                    variant="shadow"
                     fullWidth
                     size="lg"
-                    className="mt-3"
+                    radius="sm"
+                    className="mt-3 text-lg"
                     onClick={() => navigateToForm(selectedDay.date)}
                 >
-                    Записать
+                    новая запись
                 </Button>
             </div>
         </>

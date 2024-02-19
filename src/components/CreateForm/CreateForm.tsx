@@ -159,10 +159,10 @@ export const CreateForm = () => {
                 <Button
                     color="primary"
                     size="lg"
-                    variant="shadow"
+                    className="text-lg"
                     type="submit"
                 >
-                    Сохранить
+                    сохранить
                 </Button>
             </div>
         </form>
